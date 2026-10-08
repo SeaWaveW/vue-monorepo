@@ -251,24 +251,24 @@ const defaultModel = computed({
 		margin-bottom: calc(var(--common-gap) * 3.5);
 	}
 
-	:deep(.sqt-form) {
+	:deep(.saco-form) {
 		display: flex;
 		flex-direction: column;
 		padding: 0 $right-padding 0 calc(var(--common-gap) * 1.6);
 	}
 
-	:deep(.sqt-form-item) {
+	:deep(.saco-form-item) {
 		width: 100%;
 		margin-bottom: $item-gap;
 
-		.sqt-form-item__label,
-		.sqt-form-item__content {
+		.saco-form-item__label,
+		.saco-form-item__content {
 			font-size: var(--font-size);
 
-			.sqt-input,
-			.sqt-select,
-			.sqt-textarea,
-			.sqt-number {
+			.saco-input,
+			.saco-select,
+			.saco-textarea,
+			.saco-number {
 				border-radius: 4px;
 			}
 		}
@@ -277,11 +277,11 @@ const defaultModel = computed({
 			flex-direction: row;
 			align-items: center;
 
-			.sqt-form-item__label {
+			.saco-form-item__label {
 				padding-bottom: 0;
 			}
 
-			.sqt-form-item__content {
+			.saco-form-item__content {
 				flex: 1;
 				line-height: 1.5;
 				text-indent: 0.3em;

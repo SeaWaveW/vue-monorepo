@@ -229,7 +229,7 @@ const vOn = computed(() => {
 				transition: box-shadow $tran-duration ease-in-out;
 
 				&.is-not-title {
-					:deep(.sqt-form-item__label) {
+					:deep(.saco-form-item__label) {
 						display: none;
 					}
 				}

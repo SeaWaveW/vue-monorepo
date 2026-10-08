@@ -1,6 +1,6 @@
 ---
 description: AI 审核工作台 hooks 写法：删封装后要扫尾巴，禁止无意义守卫与 ! 补丁
-globs: src/hooks/ai-review-control/**/*,src/store/ai-review-control.ts,src/store/ai-review-control.md
+globs: apps/client/src/hooks/ai-review-control/**/*,apps/client/src/store/ai-review-control.ts
 alwaysApply: false
 ---
 
@@ -12,7 +12,7 @@ alwaysApply: false
 
 1. **读删前的每个分支**：旧 helper 被谁调、每种参数下干什么；新代码里是否还有等价分支，或是否应整段删掉。
 2. **禁止留「迁移尾巴」**：旧逻辑是 no-op 的 `if`、只为满足旧函数签名的守卫、用 `!` 非空断言代替已删守卫——一律去掉；切任务不要 **`switchTask` 壳**，直接 **`store.taskId = uniqueId`**。
-3. **改完扫整文件**：跑 **`ai-review-control.md` §6 的 `rg`**（**含 `src/store/ai-review-control.ts`**：`rg "agentMap|hasMoreTasks|buildAgentMap" src/store/ai-review-control.ts` 必须无命中）；同文件里是否还有只调用一次的薄包装、`return (` 包一行的写法（复杂表达式用 `const` 再接 `return`）、重复路由/路径、手写 `for` 累加（应用 **`filter` / `reduce` / `some`** 或 **`make` 里已有计数**）。
+3. **改完扫整文件**：`rg "agentMap|hasMoreTasks|buildAgentMap" apps/client/src/store/ai-review-control.ts` 必须无命中。同文件里是否还有只调用一次的薄包装、`return (` 包一行的写法（复杂表达式用 `const` 再接 `return`）、重复路由/路径、手写 `for` 累加（应用 **`filter` / `reduce` / `some`** 或 **`make` 里已有计数**）。管理端没有这套工作台，不要在 `apps/admin` 照抄。
 
 ## 写法偏好（本目录）
 
@@ -24,11 +24,11 @@ alwaysApply: false
 - 复杂条件或统计：**先 `const` 再 `return`**，不要 `return ( 长表达式 )`。
 - 侧栏任务行：**有 `id` = 已落库**；**无 `id` = 本地草稿**（创建时必带 `uniqueId`）。单击/双击共用 `onTaskClick` 即可，不要单独 `openTaskDetail` 再导出。
 - 删草稿行：**`onTaskMenu` splice** 或 **`createTaskSuccessCallback` 覆盖行**；**dataMap 裁剪**只在 **`useData` watch `taskList`**。不要 **`finishReviewAndAddDraft`** / 页级再 **`loadTaskList` + addTask**（创建成功已 **`pollingTaskList`**）。
-- 文档：`store/ai-review-control.md`、`ARCHITECTURE.md` 与代码同轮更新。
+- 文档：`apps/client/src/hooks/ai-review-control/ARCHITECTURE.md` 与代码同轮更新。
 - **`useData` / `useDynamic` / `useAgent` 禁止 `import` 其它业务 hook 文件**（如 `./task`）；跨层能力用 **`make.ts`** 纯函数或 **`useTask` 方法**（如 **`createTaskSuccessCallback`**），不要 hook return 再转发。
 - 生命周期：各 hook **`onMounted` / `onBeforeUnmount`** 自管进页 boot 与离页清理（agent 另 **`onActivated`**）；清理**直接写在 `onBeforeUnmount`**，**禁止 `const dispose = () => …` 只给 unmount 调一次**。**`index.vue` 不调用** bootstrap / dispose。不要另 export **`resetXxxSync`** 给页面单挂。
 
-## Pinia（`src/store/ai-review-control.ts`）
+## Pinia（`apps/client/src/store/ai-review-control.ts`）
 
 - **同轮必打开 store**，对照 getters：只允许 **`taskList`**（`localTaskList.concat(serverTaskList)`）。**禁止 Pinia `agentMap`**、**禁止 `buildAgentMap` / `readAgentMap` 整表再包**（按 id 用 **`findAgent`** 或 **`agentIndexMap`**）、**禁止 `hasMoreTasks` 等布尔 getter**。persist 落 **`localTaskList` / `serverTaskList`**，不要 pick getter **`taskList`**。
 - store **不要** `import` **`make`** 只为给 getter 用。

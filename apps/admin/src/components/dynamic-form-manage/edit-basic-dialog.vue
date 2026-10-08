@@ -130,7 +130,7 @@ const handleConfirm = () => {
 	column-gap: calc(var(--common-gap) * 2.3);
 	align-items: start;
 
-	.sqt-form-item {
+	.saco-form-item {
 		grid-column: span var(--column-span, 1);
 	}
 }

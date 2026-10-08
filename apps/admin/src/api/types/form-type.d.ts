@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { FormTypeDeleteStatus } from '@/enum/form-type/delete-status'
+import type { FormTypeDeleteStatus } from '@/api/enum/form-type/delete-status'
 
 /** 分页查询表单类型（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface FormTypePageParams {

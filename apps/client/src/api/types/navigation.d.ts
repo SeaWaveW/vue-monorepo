@@ -1,4 +1,4 @@
-import type { ClientNavigationDeleteStatus } from '@/enum/navigation/delete-status'
+import type { ClientNavigationDeleteStatus } from '@/api/enum/navigation/delete-status'
 
 /** 查询客户端导航树（节点） */
 export interface ClientNavigationTreeRecord {

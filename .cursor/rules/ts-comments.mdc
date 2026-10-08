@@ -6,12 +6,12 @@ alwaysApply: false
 
 # 注释必须加
 
-`common/layout/utils` 以及同类 TS 工具 / `useXXX`：**公开常量、类型、函数都要有注释**。分支写「情况 N」或原因，不要只复述代码。
+`packages/layout`、`packages/utils` 以及同类 TS 工具 / `useXXX`：**公开常量、类型、函数都要有注释**。分支写「情况 N」或原因，不要只复述代码。
 
 ```ts
 // ✅
 /** 后台非单页共用的页签名，全站只允许这一个 */
-export const LAYOUT_TAB_NAME = 'sqt-layout'
+export const LAYOUT_TAB_NAME = 'saco-layout'
 
 /**
  * 页签跳转（单页各开一签，后台共用一签）。

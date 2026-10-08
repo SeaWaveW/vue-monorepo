@@ -157,7 +157,7 @@ const handleSelect = (row: TableRow) => {
 	height: 100%;
 	min-height: 0;
 
-	.sqt-text {
+	.saco-text {
 		cursor: pointer;
 	}
 }

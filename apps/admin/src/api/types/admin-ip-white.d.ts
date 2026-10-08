@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { AdminIpWhiteStatus } from '@/enum/admin-ip-white/status'
+import type { AdminIpWhiteStatus } from '@/api/enum/admin-ip-white/status'
 
 /** 分页查询 IP 白名单（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface AdminIpWhitePageParams {

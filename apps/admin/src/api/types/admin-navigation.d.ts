@@ -1,4 +1,4 @@
-import type { AdminNavigationDeleteStatus } from '@/enum/admin-navigation/delete-status'
+import type { AdminNavigationDeleteStatus } from '@/api/enum/admin-navigation/delete-status'
 
 /** 查询导航树 / 本人授权导航 / 用户组详情 navigations（节点，对应 AdminNavigationTreeVO） */
 export interface AdminNavigationTreeRecord {

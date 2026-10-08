@@ -12,7 +12,7 @@
 	min-height: 0;
 	overflow: hidden;
 
-	:deep(.sqt-card) {
+	:deep(.saco-card) {
 		margin-top: 0;
 
 		&.base-card,
@@ -29,19 +29,19 @@
 			height: 100%;
 			min-height: 0;
 
-			.sqt-card__body {
+			.saco-card__body {
 				min-height: 0;
 			}
 		}
 
 		&.navigation-card {
-			.sqt-card__body {
+			.saco-card__body {
 				@include overflow-y-hover;
 			}
 		}
 
 		&.function-card {
-			.sqt-card__body {
+			.saco-card__body {
 				overflow: hidden;
 			}
 		}

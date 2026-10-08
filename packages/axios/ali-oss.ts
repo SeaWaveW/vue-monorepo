@@ -5,9 +5,11 @@
  */
 import { request } from './http'
 import type OSS from 'ali-oss'
+// 只引路径常量。引 ../api/oss 会再回来引 request
+import { OSS_STS } from '../api/paths/oss'
 
-/** 业务换取 OSS STS 的接口（相对 `VITE_APP_API`，与 `/auth/refresh` 同理） */
-export const OSS_TOKEN_URL = '/oss/sts'
+/** 业务换取 OSS STS 的接口。路径在 packages/api，自动导入仍用这个名字 */
+export const OSS_TOKEN_URL = OSS_STS
 
 /** STS 整包落 localStorage 的 key */
 const STORAGE_TOKEN_KEY = 'ali-oss-sts'

@@ -5,7 +5,7 @@
 	cursor: pointer;
 }
 
-:deep(.sqt-dropdown.is-disabled) .dropdown-menu-icon {
+:deep(.saco-dropdown.is-disabled) .dropdown-menu-icon {
 	color: var(--grey-color-18);
 	cursor: not-allowed;
 }

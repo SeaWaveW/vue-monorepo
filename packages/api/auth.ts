@@ -15,7 +15,7 @@ import {
 	saveAuthStorage,
 	clearAuthStorage,
 	replaceToLogin,
-} from '#/axios'
+} from '../axios/http'
 import {
 	AUTH_SEND_LOGIN_CODE,
 	AUTH_LOGIN_BY_MAIL,
@@ -27,7 +27,7 @@ import {
 
 /***************************** 认证管理（登录验证码、邮箱登录、令牌刷新、退出登录、切换语言及接口权限） *****************************/
 
-/** 发送登录验证码（向已注册的管理员邮箱发送登录验证码） */
+/** 发送登录验证码（向已注册邮箱发送登录验证码） */
 export const authSendLoginCode = (data: AuthSendLoginCodeData) => {
 	return request.post(AUTH_SEND_LOGIN_CODE, data, { noAuth: true })
 }

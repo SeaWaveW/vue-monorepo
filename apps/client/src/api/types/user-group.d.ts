@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { ClientUserGroupDeleteStatus } from '@/enum/user-group/delete-status'
+import type { ClientUserGroupDeleteStatus } from '@/api/enum/user-group/delete-status'
 import type { ClientFunctionPageRecord } from './function'
 import type { ClientNavigationTreeRecord } from './navigation'
 

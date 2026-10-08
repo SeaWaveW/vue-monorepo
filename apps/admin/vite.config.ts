@@ -200,11 +200,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 				),
 				vueTemplate: true,
 				dirs: [
+					// 两端共用的 auth / oss。不扫这里，登录和权限函数不会自动导入
+					path.resolve(import.meta.dirname, '../../packages/api'),
+					path.resolve(import.meta.dirname, '../../packages/api/length/**'),
 					'src/api',
 					'src/api/types/**',
 					'src/api/paths/**',
 					'src/api/length/**',
-					'src/enum/**',
+					'src/api/enum/**',
 					'src/utils',
 				],
 				dirsScanOptions: {

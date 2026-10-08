@@ -1,7 +1,7 @@
 import type { SearchResponse } from './index'
-import type { ClientTenantType } from '@/enum/client-tenant/type'
-import type { ClientTenantStatus } from '@/enum/client-tenant/status'
-import type { ClientTenantDeleteStatus } from '@/enum/client-tenant/delete-status'
+import type { ClientTenantType } from '@/api/enum/client-tenant/type'
+import type { ClientTenantStatus } from '@/api/enum/client-tenant/status'
+import type { ClientTenantDeleteStatus } from '@/api/enum/client-tenant/delete-status'
 
 /** 分页查询租户（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface ClientTenantPageParams {

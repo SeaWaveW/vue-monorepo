@@ -1,6 +1,6 @@
 import type { SearchResponse } from './index'
-import type { AdminUserLoginLogStatus } from '@/enum/admin-user-login-log/status'
-import type { AdminUserLoginLogDeviceType } from '@/enum/admin-user-login-log/device-type'
+import type { AdminUserLoginLogStatus } from '@/api/enum/admin-user-login-log/status'
+import type { AdminUserLoginLogDeviceType } from '@/api/enum/admin-user-login-log/device-type'
 
 /** 分页查询登录日志（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface AdminUserLoginLogPageParams {

@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { ReviewAgentDeleteStatus } from '@/enum/review-agent/delete-status'
+import type { ReviewAgentDeleteStatus } from '@/api/enum/review-agent/delete-status'
 
 /** 分页查询审核 Agent（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface ReviewAgentPageParams {

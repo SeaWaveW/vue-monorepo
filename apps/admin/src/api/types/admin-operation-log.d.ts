@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { AdminOperationLogDeviceType } from '@/enum/admin-operation-log/device-type'
+import type { AdminOperationLogDeviceType } from '@/api/enum/admin-operation-log/device-type'
 
 /** 分页查询操作日志（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface AdminOperationLogPageParams {

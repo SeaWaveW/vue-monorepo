@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { ClientApiLevel } from '@/enum/client-api/level'
+import type { ClientApiLevel } from '@/api/enum/client-api/level'
 
 /** 分页查询客户端 API 资源（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface ClientApiPageParams {

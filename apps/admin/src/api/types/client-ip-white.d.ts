@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { ClientIpWhiteStatus } from '@/enum/client-ip-white/status'
+import type { ClientIpWhiteStatus } from '@/api/enum/client-ip-white/status'
 
 /** 分页查询客户 IP 白名单（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface ClientIpWhitePageParams {

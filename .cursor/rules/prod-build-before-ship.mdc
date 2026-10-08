@@ -5,12 +5,15 @@ alwaysApply: true
 
 # 发生产前本地打包（硬性）
 
-踩过的坑：common 拆包并块只发包不本地编，流水线上线后白屏，`o is not a function`。
+踩过的坑：拆包并块只改配置不本地编，流水线上线后白屏，`o is not a function`。
 
-动拆包 / PWA / `vite.config.ts` / `config/App.vue` / 会进首屏的 common，**commit、推流水线之前**在本仓：
+动拆包 / PWA / `apps/*/vite.config.ts` / `packages/vite` / `apps/*/config/App.vue` / 会进首屏的 `packages`，**commit、推流水线之前**在本仓根目录：
 
 ```bash
-pnpm exec vite build
+pnpm build:client
+pnpm build:admin
 ```
 
-exit 0；`dist` 里 common 块不要 `from "./index-*.js"`；能的话 `pnpm preview` 打开登录页，不是白屏。不要拿云效当第一次验证。
+只动一端页面时编那一端。动了 `packages/` 或两端共用的 vite 配置，两端都编。
+
+exit 0。产物里共享块不要 `from "./index-*.js"`。能的话打开登录页，不是白屏。不要拿流水线当第一次验证。

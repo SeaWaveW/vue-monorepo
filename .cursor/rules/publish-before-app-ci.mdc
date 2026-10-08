@@ -1,21 +1,21 @@
 ---
-description: 用了 common 新文案/色板/出口，必须同一轮先发 common 再提本仓
+description: packages 源码和本仓一起交；用了未发布的 @saco 导出必须先发库
 alwaysApply: true
 ---
 
-# 先发 common，再提本仓库
+# 先对齐依赖，再提本仓库
 
-踩过的坑：本地 link 着 `@sqt/common`，页面绿；只推本仓，流水线装旧包，缺 `collapse_to_taskbar`、`--main-color-9`、新出口。
+踩过的坑：页面连着本地包是绿的，只推本仓，流水线装旧的 `@saco/*`，缺新导出。
 
 ## 必须
 
-1. 业务用了新 i18n key / 主题色 / layout / 目录出口：先看 `../sqt-common` 有没有未提交改动。
-2. 有则 **同一轮** 先提 common、升补丁、`pnpm publish --no-git-checks`，再提本仓。
-3. 本仓 lockfile 必须是私服 tarball，版本对上刚发的 `@sqt/common`，不能还是旧补丁或 `link:`。
-4. 用户说「提交」时禁止只扫本仓 src。
+1. `packages/` 里的布局、文案、主题、请求是本仓源码，和业务改动同一轮提交。不要当成外部包先发，也不要留在工作区只推 `apps/`。
+2. 业务用了 `@saco/ui`、`@saco/web-lint`、`@saco/rem-plugin`、`@saco/axios`、`@saco/theme` 里尚未发布的导出：先在对应库升版本并发布，再让本仓 lockfile 指向 registry tarball。
+3. lockfile 不能是 `link:`。见 `local-link-deps.mdc`。
+4. 用户说「提交」时，除了 `apps/`，还要看 `packages/` 和上述外部库有没有未提交改动。
 
 ## 禁止
 
-- 只推本仓、common 文案/色板留在工作区
+- 只推 `apps/`，`packages/` 的文案或色板留在工作区
 - 为过流水线把 `t('…')` / CSS 变量改回旧包已有的
 - 把 `overrides: link:` 提交进仓库

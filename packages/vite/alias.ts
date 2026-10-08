@@ -6,6 +6,7 @@ import path from 'node:path'
  * 基础设施（@saco/ui、pinia 等）不在这里，避免和 `#/pinia` 这种业务包装层撞名。
  */
 export const COMMON_PACKS = [
+	'api',
 	'axios',
 	'assets',
 	'components',

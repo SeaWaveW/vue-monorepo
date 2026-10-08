@@ -244,14 +244,14 @@ onMounted(() => {
 	border-radius: 20px !important;
 	box-shadow: 0 0 7px 1px var(--grey-color-16);
 
-	.sqt-card__header {
+	.saco-card__header {
 		padding-right: var(--card-x-padding);
 		padding-left: var(--card-x-padding);
 		font-size: 18px;
 		font-weight: var(--font-bold);
 	}
 
-	.sqt-card__body {
+	.saco-card__body {
 		padding: 0 var(--common-gap);
 	}
 }

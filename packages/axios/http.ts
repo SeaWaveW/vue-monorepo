@@ -11,6 +11,8 @@ import { i18n } from '../i18n'
 /** Vite 8 / Rolldown 把 CJS 收成具名导出，没有 default；`import qs from 'qs'` 会报不提供 default */
 import { stringify } from 'qs'
 import { SacoMessage } from '@saco/ui/es/components/message'
+// 只引路径常量。引 ../api/auth 会再回来引本文件的 request
+import { AUTH_REFRESH } from '../api/paths/auth'
 
 /** GET 数组用逗号；提到模块级，每个请求只赋值引用 */
 const serializeGetParams = (params: AnyObj) => {
@@ -43,8 +45,8 @@ export const ACCESS_TOKEN_KEY = 'Authorization'
 export const REFRESH_TOKEN_KEY = 'refresh-token'
 /** 令牌失效时间的 storage key */
 export const EXPIRES_TIME_KEY = `${ACCESS_TOKEN_KEY}_expiresTime`
-/** 刷新令牌的接口地址 */
-export const REFRESH_TOKEN_URL = '/auth/refresh'
+/** 刷新令牌的接口地址。路径在 packages/api，自动导入仍用这个名字 */
+export const REFRESH_TOKEN_URL = AUTH_REFRESH
 
 /**
  * 接口错误 toast。`grouping` 合并相同文案：refresh 401 会进两次 errorHandler，不合并会叠两条；

@@ -1,6 +1,6 @@
 import type { SearchResponse } from './index'
 import type { ClientApiPageRecord } from './client-api'
-import type { ClientFunctionDeleteStatus } from '@/enum/client-function/delete-status'
+import type { ClientFunctionDeleteStatus } from '@/api/enum/client-function/delete-status'
 
 /** 分页查询客户端功能（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface ClientFunctionPageParams {

@@ -121,7 +121,7 @@ import { leachFormatter, reviewDurationFormatter } from '#/utils/formatter'
 import { noTransferDblClick } from '#/utils/message'
 import { PROPORTION_DEFAULT_SIZE } from '#/utils/proportion'
 import { useRouterStore } from '#/store'
-import { ReviewAgentStatus } from '@/enum/review-agent/status'
+import { ReviewAgentStatus } from '@/api/enum/review-agent/status'
 
 const { t } = useI18n()
 const route = useRoute()

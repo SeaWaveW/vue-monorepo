@@ -1,6 +1,6 @@
 import type { SearchResponse } from './index'
-import type { AdminUserStatus } from '@/enum/admin-user/status'
-import type { AdminUserDeleteStatus } from '@/enum/admin-user/delete-status'
+import type { AdminUserStatus } from '@/api/enum/admin-user/status'
+import type { AdminUserDeleteStatus } from '@/api/enum/admin-user/delete-status'
 import type { AdminUserGroupPageRecord } from './admin-user-group'
 
 /** 分页查询后台用户（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */

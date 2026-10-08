@@ -22,6 +22,7 @@
 			"@/*": ["./src/*"],
 			"#/style.scss": ["../../packages/style/index.scss"],
 			"#/style.css": ["../../packages/style/index.scss"],
+			"#/api/*": ["../../packages/api/*"],
 			"#/axios": ["../../packages/axios/index.ts"],
 			"#/axios/*": ["../../packages/axios/*"],
 			"#/assets/*": ["../../packages/assets/*"],

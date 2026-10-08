@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { AdminApiLevel } from '@/enum/admin-api/level'
+import type { AdminApiLevel } from '@/api/enum/admin-api/level'
 
 /** 分页查询 API 资源（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface AdminApiPageParams {

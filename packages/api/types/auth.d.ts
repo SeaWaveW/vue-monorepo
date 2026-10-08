@@ -1,4 +1,5 @@
-import type { Language } from '#/i18n'
+import type { Language } from '../../i18n'
+import type { AuthDeviceType } from '../enum/auth/device-type'
 
 /** 发送登录验证码（参数） */
 export interface AuthSendLoginCodeData {
@@ -21,7 +22,7 @@ export interface AuthLoginByMailData {
 	language?: Language
 
 	/** 登录设备类型 */
-	deviceType: 'pc' | 'tablet' | 'mobile'
+	deviceType: AuthDeviceType
 
 	/** 用于标识当前设备的唯一编码 */
 	deviceCode: string

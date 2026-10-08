@@ -1,25 +1,24 @@
 ---
-description: Teleport* 只从 @sqt/common/components 取，禁止从 layout 引入
+description: Teleport 只从 packages/components/teleport 的具体文件取，禁止从 layout 再引一份
 alwaysApply: true
 ---
 
 # Teleport 只从 components 取
 
-踩过的坑：实体在 `@sqt/common` 的 `src/components/teleport`，改目录时 layout 再导出了一份，业务写成 `from '@sqt/common/layout'`。
+踩过的坑：实体在 `packages/components/teleport`，layout 再导出一份之后，页面写成从 layout 进。
 
 ## 必须
 
 ```ts
-import { CommonTeleportNav, CommonTeleportFooter } from '@sqt/common/components'
-import { CommonTeleportDialog } from '@sqt/common/components'
+import CommonTeleportNav from '#/components/teleport/nav.vue'
+import CommonTeleportFooter from '#/components/teleport/footer.vue'
+import CommonTeleportDialog from '#/components/teleport/dialog.vue'
 ```
 
-已有 `@sqt/common/components` 导入时合并进同一条。
-
-`@sqt/common/layout` 只给 `CommonLayout` / `LayoutFavoriteApi` / 页签。
+`#/layout` 只给布局、页签。Teleport 不要从 layout 再引。
 
 ## 禁止
 
 ```ts
-import { CommonTeleportDialog } from '@sqt/common/layout'
+import CommonTeleportDialog from '#/layout'
 ```

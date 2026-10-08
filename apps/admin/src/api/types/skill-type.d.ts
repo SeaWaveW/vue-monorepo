@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { SkillTypeDeleteStatus } from '@/enum/skill-type/delete-status'
+import type { SkillTypeDeleteStatus } from '@/api/enum/skill-type/delete-status'
 
 /** 分页查询 Skill 类型（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface SkillTypePageParams {

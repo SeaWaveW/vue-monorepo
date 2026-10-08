@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { AdminUserGroupDeleteStatus } from '@/enum/admin-user-group/delete-status'
+import type { AdminUserGroupDeleteStatus } from '@/api/enum/admin-user-group/delete-status'
 import type { AdminFunctionPageRecord } from './admin-function'
 import type { AdminNavigationTreeRecord } from './admin-navigation'
 

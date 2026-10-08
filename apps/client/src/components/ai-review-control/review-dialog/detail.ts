@@ -1,5 +1,5 @@
 import { reviewRecordCreate, reviewRecordDetail } from '@/api/review-record'
-import { ReviewRecordReviewStatus } from '@/enum/review-record/review-status'
+import { ReviewRecordReviewStatus } from '@/api/enum/review-record/review-status'
 
 /** 弹窗还开着时，隔这么久查一次该任务详情 */
 const DETAIL_POLL_INTERVAL = 10000

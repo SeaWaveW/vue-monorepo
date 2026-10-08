@@ -91,7 +91,7 @@ defineExpose<DynamicExpose>({
 })
 </script>
 <style scoped lang="scss">
-.dynamic-component.sqt-form {
+.dynamic-component.saco-form {
 	$off-size: 9px;
 
 	box-sizing: border-box;
@@ -140,7 +140,7 @@ defineExpose<DynamicExpose>({
 	.configuration-area {
 		width: #{389px - $off-size};
 
-		:deep(.sqt-form-item__label) {
+		:deep(.saco-form-item__label) {
 			text-indent: 0.2em;
 		}
 	}

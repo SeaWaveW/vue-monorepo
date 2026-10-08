@@ -1,6 +1,6 @@
 import type { SearchResponse } from './index'
-import type { ClientUserStatus } from '@/enum/user/status'
-import type { ClientUserDeleteStatus } from '@/enum/user/delete-status'
+import type { ClientUserStatus } from '@/api/enum/user/status'
+import type { ClientUserDeleteStatus } from '@/api/enum/user/delete-status'
 import type { ClientUserGroupPageRecord } from './user-group'
 
 /** 分页查询客户用户（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */

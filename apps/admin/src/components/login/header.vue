@@ -55,7 +55,7 @@ const language = useI18nLanguage() as Ref<TabPaneName>
 		}
 	}
 
-	:deep(.sqt-tabs) {
+	:deep(.saco-tabs) {
 		width: calc(var(--language-sum) * 145px);
 
 		@include tabs-scroll-border(
@@ -85,8 +85,8 @@ const language = useI18nLanguage() as Ref<TabPaneName>
 			}
 		}
 
-		:deep(.sqt-tabs) {
-			.sqt-tabs__item {
+		:deep(.saco-tabs) {
+			.saco-tabs__item {
 				height: 44px;
 			}
 		}

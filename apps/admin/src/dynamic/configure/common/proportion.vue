@@ -28,7 +28,7 @@ const { t } = useI18n()
 </script>
 <style scoped lang="scss">
 .configure-proportion {
-	:deep(.sqt-tabs) {
+	:deep(.saco-tabs) {
 		@include tabs-scroll-border(
 			$item-size: var(--proportion-sum),
 			$item-height: 38px,
@@ -37,7 +37,7 @@ const { t } = useI18n()
 			$active-border-radius: 5px
 		);
 
-		.sqt-tabs__item {
+		.saco-tabs__item {
 			padding: 0;
 		}
 	}

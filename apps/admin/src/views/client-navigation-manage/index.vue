@@ -201,7 +201,7 @@ onMounted(() => {
 	height: 100%;
 	min-height: 0;
 
-	:deep(.sqt-card) {
+	:deep(.saco-card) {
 		margin-top: 0;
 	}
 
@@ -231,12 +231,12 @@ onMounted(() => {
 		height: 100%;
 		min-height: 0;
 
-		:deep(.sqt-card__body) {
+		:deep(.saco-card__body) {
 			min-height: 0;
 		}
 
-		:deep(.sqt-tree) {
-			.sqt-tree__node-content {
+		:deep(.saco-tree) {
+			.saco-tree__node-content {
 				margin-bottom: calc(var(--common-gap) * 0.4);
 			}
 		}

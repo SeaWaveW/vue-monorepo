@@ -87,7 +87,7 @@ const proportion = defineModel<TabPaneName>('proportion', {
 				font-weight: normal !important;
 			}
 
-			:deep(.sqt-tabs) {
+			:deep(.saco-tabs) {
 				flex: 1;
 
 				@include tabs-scroll-border(
@@ -98,7 +98,7 @@ const proportion = defineModel<TabPaneName>('proportion', {
 					$active-border-radius: 5px
 				);
 
-				.sqt-tabs__item {
+				.saco-tabs__item {
 					padding: 0;
 				}
 			}
@@ -127,13 +127,13 @@ const proportion = defineModel<TabPaneName>('proportion', {
 					font-size: 18px;
 				}
 
-				:deep(.sqt-button) {
+				:deep(.saco-button) {
 					width: 100%;
 					height: 40px;
 					margin: 0;
 					pointer-events: none;
 
-					.sqt-button__text {
+					.saco-button__text {
 						@include line-clamp(1);
 
 						// 按钮文案默认 inline-flex，文字是 flex 项，省略号加不到行盒上

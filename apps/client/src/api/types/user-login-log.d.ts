@@ -1,6 +1,6 @@
 import type { SearchResponse } from './index'
-import type { ClientUserLoginLogStatus } from '@/enum/user-login-log/status'
-import type { ClientUserLoginLogDeviceType } from '@/enum/user-login-log/device-type'
+import type { ClientUserLoginLogStatus } from '@/api/enum/user-login-log/status'
+import type { ClientUserLoginLogDeviceType } from '@/api/enum/user-login-log/device-type'
 
 /** 分页查询客户端登录日志（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface ClientUserLoginLogPageParams {

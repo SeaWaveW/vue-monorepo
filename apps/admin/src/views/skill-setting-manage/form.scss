@@ -16,11 +16,11 @@
 		width: 100%;
 		min-height: 0;
 
-		:deep(.sqt-card) {
+		:deep(.saco-card) {
 			margin-top: 0;
 		}
 
-		:deep(.sqt-card__body) {
+		:deep(.saco-card__body) {
 			@include form-grid;
 		}
 
@@ -30,7 +30,7 @@
 			flex-direction: column;
 			min-height: 0;
 
-			.sqt-card__body {
+			.saco-card__body {
 				display: flex;
 				flex: 1;
 				flex-direction: column;
@@ -39,14 +39,14 @@
 				overflow: hidden;
 			}
 
-			.sqt-form-item {
+			.saco-form-item {
 				flex: 1;
 				width: 100%;
 				min-height: 0;
 				margin-bottom: 0;
 			}
 
-			.sqt-form-item__content {
+			.saco-form-item__content {
 				display: flex;
 				flex: 1;
 				flex-direction: column;
@@ -54,12 +54,12 @@
 				padding-bottom: calc((var(--font-size) - 2px) * 1.5);
 			}
 
-			.sqt-form-item__error {
+			.saco-form-item__error {
 				top: auto;
 				bottom: 0;
 			}
 
-			.sqt-textarea {
+			.saco-textarea {
 				flex: 1;
 				min-height: 0;
 

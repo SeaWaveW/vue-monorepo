@@ -199,10 +199,10 @@ const handleLogin = () => {
 	padding: calc(var(--common-gap) * 7) calc(var(--common-gap) * 6.5) 0
 		calc(var(--common-gap) * 5.8);
 	border-radius: 30px;
-	box-shadow: 0 0 6px 0 var(--sqt-color-primary);
+	box-shadow: 0 0 6px 0 var(--saco-color-primary);
 	backdrop-filter: blur(8px);
 
-	:deep(.sqt-tabs) {
+	:deep(.saco-tabs) {
 		margin-bottom: calc(var(--common-gap) * 0.7);
 
 		@include tabs-scroll-border(
@@ -213,15 +213,15 @@ const handleLogin = () => {
 			$active-border-radius: 5px
 		);
 
-		.sqt-tabs__item {
+		.saco-tabs__item {
 			padding: 0 8px;
 		}
 
-		.sqt-tabs__content {
+		.saco-tabs__content {
 			padding-top: calc(var(--common-gap) * 5);
 
-			.sqt-form-item {
-				.sqt-input {
+			.saco-form-item {
+				.saco-input {
 					height: 50px;
 
 					input {
@@ -242,7 +242,7 @@ const handleLogin = () => {
 		}
 	}
 
-	:deep(.sqt-button) {
+	:deep(.saco-button) {
 		width: 100%;
 		height: 50px;
 		font-size: 18px;
@@ -258,23 +258,23 @@ const handleLogin = () => {
 		padding: calc(var(--common-gap) * 3) calc(var(--common-gap) * 3) 0
 			calc(var(--common-gap) * 2.5);
 
-		:deep(.sqt-tabs) {
-			.sqt-tabs__item {
+		:deep(.saco-tabs) {
+			.saco-tabs__item {
 				height: 44px;
 			}
 
-			.sqt-tabs__content {
+			.saco-tabs__content {
 				padding-top: calc(var(--common-gap) * 2);
 
-				.sqt-form-item {
-					.sqt-input {
+				.saco-form-item {
+					.saco-input {
 						height: 44px;
 					}
 				}
 			}
 		}
 
-		:deep(.sqt-button) {
+		:deep(.saco-button) {
 			height: 44px;
 		}
 	}

@@ -1,6 +1,6 @@
 import type { SearchResponse } from './index'
-import type { SkillPlatformType } from '@/enum/skill/platform-type'
-import type { SkillDeleteStatus } from '@/enum/skill/delete-status'
+import type { SkillPlatformType } from '@/api/enum/skill/platform-type'
+import type { SkillDeleteStatus } from '@/api/enum/skill/delete-status'
 
 /** 分页查询 Skill（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface SkillPageParams {

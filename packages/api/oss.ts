@@ -3,7 +3,7 @@ export * from './paths/oss'
 
 import type { OssStsResponse } from './types/oss'
 import { OSS_STS } from './paths/oss'
-import { request } from '#/axios'
+import { request } from '../axios/http'
 
 /***************************** OSS 管理（获取对象存储临时上传凭证） *****************************/
 

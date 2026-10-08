@@ -24,12 +24,12 @@
 		padding-right: 0;
 		padding-left: 0;
 
-		:deep(.sqt-card__header) {
+		:deep(.saco-card__header) {
 			padding-right: var(--card-x-padding);
 			padding-left: var(--card-x-padding);
 		}
 
-		:deep(.sqt-card__body) {
+		:deep(.saco-card__body) {
 			@include overflow-y-hover;
 
 			min-height: 0;
@@ -48,7 +48,7 @@
 					font-size: 16px;
 				}
 
-				.sqt-text {
+				.saco-text {
 					font-size: 16px;
 					cursor: pointer;
 				}

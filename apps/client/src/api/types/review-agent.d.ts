@@ -1,7 +1,7 @@
 import type { SearchResponse } from './index'
-import type { ReviewAgentDeleteStatus } from '@/enum/review-agent/delete-status'
-import type { ReviewAgentStatus } from '@/enum/review-agent/status'
-import type { SkillPlatformType } from '@/enum/skill/platform-type'
+import type { ReviewAgentDeleteStatus } from '@/api/enum/review-agent/delete-status'
+import type { ReviewAgentStatus } from '@/api/enum/review-agent/status'
+import type { SkillPlatformType } from '@/api/enum/skill/platform-type'
 import type { DynamicFormDetailResponse } from './dynamic-form'
 
 /** 分页查询已授权 Agent（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */

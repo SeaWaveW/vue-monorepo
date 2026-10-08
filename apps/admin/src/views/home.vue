@@ -135,7 +135,7 @@ onMounted(() => {
 		gap: var(--home-row-gap) var(--home-column-gap);
 		min-height: 0;
 
-		:deep(.sqt-card) {
+		:deep(.saco-card) {
 			display: flex;
 			flex-direction: column;
 			height: 100%;
@@ -150,7 +150,7 @@ onMounted(() => {
 			--left-right-size: 46px;
 			--bottom-size: 10px;
 
-			.sqt-card__header {
+			.saco-card__header {
 				padding: var(--top-size) var(--left-right-size) 0 !important;
 				margin-bottom: calc(var(--common-gap) * 2.5) !important;
 				font-size: 20px !important;
@@ -160,7 +160,7 @@ onMounted(() => {
 
 			&.ai-trend,
 			&.token-trend {
-				.sqt-card__body {
+				.saco-card__body {
 					display: flex;
 					flex: 1;
 					min-height: 0;
@@ -178,31 +178,31 @@ onMounted(() => {
 
 			&.agent-ranking,
 			&.tenant-active {
-				.sqt-card__body {
+				.saco-card__body {
 					padding: 0 !important;
 
-					.sqt-table {
+					.saco-table {
 						flex: 1;
 						width: 100%;
 						min-width: 0;
 						height: max-content;
 						background-color: var(--white-color) !important;
 
-						.sqt-table__header {
-							.sqt-table__cell {
+						.saco-table__header {
+							.saco-table__cell {
 								background-color: var(--white-color) !important;
 								border-color: var(--white-color) !important;
 							}
 						}
 
-						.sqt-table__body {
-							.sqt-table__cell {
+						.saco-table__body {
+							.saco-table__cell {
 								background-color: transparent !important;
 								border-color: transparent !important;
 							}
 						}
 
-						.sqt-table__cell {
+						.saco-table__cell {
 							.metric-box {
 								display: flex;
 								flex-direction: column;
@@ -215,10 +215,10 @@ onMounted(() => {
 									text-align: left;
 								}
 
-								.sqt-progress {
+								.saco-progress {
 									width: 100%;
 
-									.sqt-progress__bar-outer {
+									.saco-progress__bar-outer {
 										background-color: var(--grey-color-11);
 									}
 								}

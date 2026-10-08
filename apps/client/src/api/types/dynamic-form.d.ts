@@ -1,8 +1,8 @@
 import type { ComponentItem } from '#/dynamic'
-import type { DynamicFormStatus } from '@/enum/dynamic-form/status'
-import type { DynamicFormIsDraft } from '@/enum/dynamic-form/is-draft'
-import type { DynamicFormWidthLevel } from '@/enum/dynamic-form/width-level'
-import type { DynamicFormDeleteStatus } from '@/enum/dynamic-form/delete-status'
+import type { DynamicFormStatus } from '@/api/enum/dynamic-form/status'
+import type { DynamicFormIsDraft } from '@/api/enum/dynamic-form/is-draft'
+import type { DynamicFormWidthLevel } from '@/api/enum/dynamic-form/width-level'
+import type { DynamicFormDeleteStatus } from '@/api/enum/dynamic-form/delete-status'
 
 /** 表单结构 JSON（后台 JsonNode，对象不是字符串） */
 export interface DynamicFormSchemaJson {

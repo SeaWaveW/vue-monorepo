@@ -1,6 +1,6 @@
 import type { SearchResponse } from './index'
 import type { AdminApiPageRecord } from './admin-api'
-import type { AdminFunctionDeleteStatus } from '@/enum/admin-function/delete-status'
+import type { AdminFunctionDeleteStatus } from '@/api/enum/admin-function/delete-status'
 
 /** 分页查询功能（参数；不含 pageNum/pageSize，由 SearchParams / 列表 hook 交叉） */
 export interface AdminFunctionPageParams {

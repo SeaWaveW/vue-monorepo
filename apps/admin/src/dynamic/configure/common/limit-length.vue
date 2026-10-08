@@ -74,7 +74,7 @@ const maxRules = computed<RulesItem[]>(() => [
 		align-items: center;
 		width: 100%;
 
-		.sqt-form-item {
+		.saco-form-item {
 			flex: 1;
 			margin-bottom: 0 !important;
 		}

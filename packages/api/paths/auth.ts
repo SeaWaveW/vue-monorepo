@@ -1,3 +1,8 @@
+/**
+ * 认证路径。只有常量，不引 `request`。
+ * `packages/axios` 刷新令牌要读 `AUTH_REFRESH`；请求函数在 `../auth.ts`，两边对引会绕回来。
+ */
+
 /** 发送登录验证码。与 swagger / authApiList 权限串一致 */
 export const AUTH_SEND_LOGIN_CODE = '/auth/send-login-code' as const
 

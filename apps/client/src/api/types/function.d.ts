@@ -1,5 +1,5 @@
 import type { SearchResponse } from './index'
-import type { ClientFunctionDeleteStatus } from '@/enum/function/delete-status'
+import type { ClientFunctionDeleteStatus } from '@/api/enum/function/delete-status'
 
 /** 功能详情里关联的 API 行；本仓不迁 client-api 板块，只留详情展示要用的字段 */
 export interface ClientFunctionApiRecord {

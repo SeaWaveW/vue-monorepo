@@ -159,12 +159,12 @@ onMounted(() => {
 	flex-direction: column;
 	gap: var(--common-gap);
 
-	:deep(.sqt-card) {
+	:deep(.saco-card) {
 		margin-top: 0;
 	}
 
 	:deep(.skill-setting-manage-detail__prompt) {
-		.sqt-card__body {
+		.saco-card__body {
 			overflow: visible;
 		}
 

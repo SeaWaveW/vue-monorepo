@@ -1,8 +1,8 @@
 ---
 description: 改首页趋势必须同一轮同步管理端和客户端，禁止只改一端
 globs:
-  - "src/components/home/**"
-  - "src/views/home.vue"
+  - "apps/*/src/components/home/**"
+  - "apps/*/src/views/home.vue"
 alwaysApply: true
 ---
 
@@ -12,12 +12,12 @@ alwaysApply: true
 
 ## 必须
 
-改 `src/components/home` / `src/views/home.vue` **之前先读本规则**。同一改动里对上另一端同路径文件，不要说「另一端下次再改」。
+改首页 **之前先读本规则**。同一改动里对上另一端同路径文件，不要说「另一端下次再改」。
 
-- 客户端：`../report_review_client/src/components/home`
-- 管理端：`../report_review_admin/src/components/home`
+- 客户端：`apps/client/src/components/home`、`apps/client/src/views/home.vue`
+- 管理端：`apps/admin/src/components/home`、`apps/admin/src/views/home.vue`
 
-横轴去年当月到今年当月（含两端 13 点），刻度走 `t('home_jan')`–`t('home_dec')`。文案在 language.xlsx「ai审核运营中心」：中文 `1月`–`12月`，英文 `Jan`–`Dec`。不要在 TS 里写死，也不要中英文都填 Jan。新 key 按 `action-success-i18n.mdc` 先补产品表再 `pnpm i18n:local`。禁止 `t('home_month', [数字])`。
+横轴去年当月到今年当月（含两端 13 点），刻度走 `t('home_jan')`–`t('home_dec')`。文案在 `packages/i18n/locales`：中文 `1月`–`12月`，英文 `Jan`–`Dec`。不要在 TS 里写死，也不要中英文都填 Jan。新 key 按 `action-success-i18n.mdc` 补 locales。禁止 `t('home_month', [数字])`。
 
 ## 禁止
 

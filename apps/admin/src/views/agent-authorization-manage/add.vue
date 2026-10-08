@@ -126,7 +126,7 @@ const handleComplete = () => {
 	min-height: 0;
 	overflow: hidden;
 
-	:deep(.sqt-card) {
+	:deep(.saco-card) {
 		margin-top: 0;
 
 		&.agent-card,
@@ -137,7 +137,7 @@ const handleComplete = () => {
 			min-width: 0;
 			min-height: 0;
 
-			.sqt-card__body {
+			.saco-card__body {
 				display: flex;
 				flex: 1;
 				flex-direction: column;

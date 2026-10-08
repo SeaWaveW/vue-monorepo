@@ -1,79 +1,86 @@
 ---
-description: 按 Swagger 标签生成 src/api，枚举 label 必须走 i18n，字符串 maxLength 走 length 常量
-globs: ['src/api/**/*.ts', 'src/api/types/**/*.d.ts', 'src/api/length/**/*.ts', 'src/enum/**/*.ts', 'src/views/**/*.vue', 'src/components/**/*.vue']
+description: 按 Swagger 标签生成两端 src/api。枚举跟各自应用的 api 走，字符串 maxLength 走 length 常量
+globs: ['apps/*/src/api/**/*.ts', 'apps/*/src/api/**/*.d.ts', 'packages/api/**/*.ts', 'packages/api/**/*.d.ts', 'apps/*/src/views/**/*.vue', 'apps/*/src/components/**/*.vue']
 alwaysApply: false
 ---
 
 # 从 Swagger 生成 API
 
-用户说「按 swagger 生成 / 同步 api」时：拉 OpenAPI，按 **tag（板块）** 生成或覆盖 `src/api/<资源>.ts`，把 swagger 原 path 写到 `src/api/paths/<同名>.ts`，把请求/响应类型写到 `src/api/types/<同名>.d.ts`，字符串 `maxLength` 写到 `src/api/length/<同名>/<字段>.ts`。
+用户说「按 swagger 生成 / 同步 api」时，先看要改的是哪一端，再拉该端 OpenAPI。按 **tag（板块）** 生成或覆盖 `apps/<端>/src/api/<资源>.ts`，path 常量写到同端 `src/api/paths/<同名>.ts`，请求/响应类型写到 `src/api/types/<同名>.d.ts`，字符串 `maxLength` 写到 `src/api/length/<同名>/<字段>.ts`。
 
-## 地址
+换环境时以用户给出的 swagger 域名为准。文档 JSON 优先于肉眼抄 UI。`/health` 不生成。
+
+`/auth/…` 和 `/oss/…` 两端路径一样，写在 `packages/api`（路径常量 `packages/api/paths`，请求函数 `packages/api/auth.ts`、`packages/api/oss.ts`，长度 `packages/api/length`）。不要再生成到 `apps/*/src/api`。`packages/axios` 只许引用 `packages/api/paths` 里的常量，不要引用请求函数。登录设备类型是这份公共接口的枚举，写在 `packages/api/enum/auth/device-type.ts`。
+
+客户端枚举写 `apps/client/src/api/enum`，管理端枚举写 `apps/admin/src/api/enum`。不要并到 `packages/api`，也不要再生成 `src/enum`。
+
+## 客户端 `apps/client`
 
 - UI：`https://dev-review-client.gzst-test.com/c-api/swagger-ui/index.html`
-- 文档 JSON：`https://dev-review-client.gzst-test.com/c-api/v3/api-docs`（优先用这个解析，不要靠肉眼抄 UI）
+- 文档 JSON：`https://dev-review-client.gzst-test.com/c-api/v3/api-docs`
+- 接口前缀：`/c-api`
 
-换环境时以用户给出的 swagger 域名为准，路径仍是 `/c-api/swagger-ui/index.html` 与 `/c-api/v3/api-docs`。本仓接口前缀是 `/c-api`。
+只拉**非 admin** 接口。跳过 `/admin…`、`/admin-…` 与 `/health`。
 
-## 端前缀（client 仓）
-
-本仓只拉**非 admin** 接口。后端可能用段前缀或连写前缀（以实际 `v3/api-docs` 为准）：
+后端可能用段前缀或连写前缀（以实际 `v3/api-docs` 为准）：
 
 - 段：`/client/xxx/...`
 - 连写：`/client-xxx/...`
-- 无端前缀公共接口：`/auth/…`、`/oss/…`、`/review-agent/…`、`/agent-authorization/…`
+- 无端前缀：`/auth/…`、`/oss/…`、`/review-agent/…`、`/agent-authorization/…`
 
 | 规则 | 说明 |
 | --- | --- |
-| **只拉非 admin** | 跳过 `/admin…`、`/admin-…` 与 `/health` |
-| **函数 / 类型 / path 常量保留 `client` 前缀** | 函数名、由函数派生的类型、path 常量**不要**再剥 `client`。例：`/client-ip-white/page` → `clientIpWhitePage` / `ClientIpWhitePageParams` / `CLIENT_IP_WHITE_PAGE` |
-| **文件名 / enum / length 剥 `client-`** | `/client-ip-white/page` → 文件 **`ip-white.ts`**、`src/enum/ip-white`、`src/api/length/ip-white`。无端前缀公共接口仍不加成：`/auth/…` → `auth.ts`，`/oss/…` → `oss.ts` |
-| **请求 URL 走 paths 常量** | 常量值 = swagger 原 path（含 `{id}`），与 `authApiList` 返回的权限串一致；`request` 只引用常量，禁止再手写 `'/client-ip-white/page'` |
-| **跳过健康检查** | `/health` 等负载均衡探活不生成 |
+| **函数 / 类型 / path 常量保留 `client`** | 不要再剥 `client`。例：`/client-ip-white/page` → `clientIpWhitePage` / `ClientIpWhitePageParams` / `CLIENT_IP_WHITE_PAGE` |
+| **文件名 / enum / length 剥 `client-`** | `/client-ip-white/page` → `ip-white.ts`、`src/api/enum/ip-white`、`src/api/length/ip-white`。`/client-user` 的 `username` → `src/api/length/user/username.ts`，常量仍是 `CLIENT_USER_USERNAME_MAX_LENGTH` |
+| **无端前缀** | `/auth/…`、`/oss/…` 进 `packages/api`，不要写进 `apps/client/src/api`。其余无端前缀仍按资源名落在本端 |
 
-## 文件与命名
+## 管理端 `apps/admin`
 
-| 来源 | 规则 |
-| --- | --- |
-| 实现文件 | 资源名 **剥** `client-`。例：`/client-ip-white/page` → `ip-white.ts`；`/auth/send-login-code` → `auth.ts` |
-| path 常量 | 同名 → `src/api/paths/<剥前缀后的资源>.ts`。常量名 = 函数名的 SCREAMING_SNAKE（函数名已含 `client`）。例：`clientIpWhitePage` → `CLIENT_IP_WHITE_PAGE = '/client-ip-white/page'` |
-| 长度常量 | 同名资源文件夹 → `src/api/length/<剥前缀后的资源>/<字段>.ts`。例：`client-user` 的 `username` → `src/api/length/user/username.ts`，常量 `CLIENT_USER_USERNAME_MAX_LENGTH` |
-| 类型文件 | 同名 → `src/api/types/<剥前缀后的资源>.d.ts` |
-| 函数名 | path 全段转 camelCase（去掉 `/`、`{}`），**保留** `client`。例：`GET /client-ip-white/page` → `clientIpWhitePage` |
-| 文件头 | tag 名 + description：`/***************************** 认证管理（…） *****************************/` |
+- UI：`https://dev-review-admin.gzst-test.com/a-api/swagger-ui/index.html`
+- 文档 JSON：`https://dev-review-admin.gzst-test.com/a-api/v3/api-docs`
+- 接口前缀：`/a-api`
 
-`request` 已自动导入，**不要**手写 `import { request } from …`。业务枚举从 `@/enum/<资源>/<字段>` 取；长度从 `@/api/length/<资源>/<字段>` 取（`vite` 已扫 `src/api/length/**`，页面不必手写 import）。
+管理端同时管后台和客户，**admin 与 client 都要拉**，再加无端前缀接口（`/skill/…`、`/review-agent/…`、`/form-type/…`、`/dynamic-form/…`、`/tenant-review-agent/…`）。`/auth/…`、`/oss/…` 已在 `packages/api`，不要再写进 `apps/admin/src/api`。只跳过 `/health`。
 
-## path 常量（`src/api/paths/<资源>.ts`）
+**不要剥 `admin-` / `client-`。** 两端资源会同时存在，剥掉会变成同一个 `user.ts`。
+
+| swagger path | 文件 | 函数 | path 常量 | length |
+| --- | --- | --- | --- | --- |
+| `/admin-user/page` | `admin-user.ts` | `adminUserPage` | `ADMIN_USER_PAGE = '/admin-user/page'` | `src/api/length/admin-user/username.ts` → `ADMIN_USER_USERNAME_MAX_LENGTH` |
+| `/client-user/page` | `client-user.ts` | `clientUserPage` | `CLIENT_USER_PAGE = '/client-user/page'` | `src/api/length/client-user/username.ts` → `CLIENT_USER_USERNAME_MAX_LENGTH` |
+| `/skill/page` | `skill.ts` | `skillPage` | `SKILL_PAGE = '/skill/page'` | `src/api/length/skill/<字段>.ts` |
+
+enum 目录与 api 文件名相同：`src/api/enum/admin-user`、`src/api/enum/client-user`。
+
+## 两端共用
+
+`request` 从 `#/axios` 引入，与同文件已有 import 放在一起。业务枚举从本端 `@/api/enum/<资源>/<字段>` 取。本端长度从 `@/api/length/<资源>/<字段>` 取；各端 `vite.config.ts` 的 `UnpluginAutoImportVite.dirs` 已含 `src/api/length/**`、`src/api/enum/**` 和 `packages/api/length/**`，页面不必再 import。
+
+### path 常量（`src/api/paths/<资源>.ts`）
 
 | 规则 | 说明 |
 | --- | --- |
-| 路径 | `src/api/paths/<资源>.ts`，资源名与 `src/api/<资源>.ts` 相同（已剥 `client-`） |
-| 常量名 | 对应请求函数的 SCREAMING_SNAKE。`clientIpWhitePage` → `CLIENT_IP_WHITE_PAGE` |
-| 常量值 | **原样**抄 swagger `paths` 的 key，保留 `{id}`，不要剥 `client-` |
+| 路径 | 资源名与 `src/api/<资源>.ts` 相同 |
+| 常量名 | 对应请求函数的 SCREAMING_SNAKE |
+| 常量值 | **原样**抄 swagger `paths` 的 key，保留 `{id}` |
 | 类型 | `as const` |
 | 已有文件 | 只增补 / 改路径；不要整文件覆盖 |
 
-## 长度（`src/api/length/<资源>/<字段>.ts`）
+### 长度（`src/api/length/<资源>/<字段>.ts`）
+
+资源名 = 该端 api 文件名。导出 `as const` 数字常量。页面禁止再写字面量，也禁止手写 `import`。
+
+### 枚举（`src/api/enum/<资源>/<字段>.ts`）
+
+schema / query / body 字段带 **`enum`** 时必须落盘。资源名 = 该端 api 文件名。客户端、管理端各写各的，不要合成一份。
 
 | 规则 | 说明 |
 | --- | --- |
-| 路径 | `src/api/length/<资源>/<字段>.ts`。资源 = api 文件名（kebab，**已剥** `client-`） |
-| 导出 | `as const` 数字常量。常量名仍带 `CLIENT_`：`CLIENT_USER_USERNAME_MAX_LENGTH` |
-| 页面用法 | `src/api/length/**` 自动导入，禁止再写字面量，也禁止手写 `import` |
-| Vite | `UnpluginAutoImportVite` 的 `dirs` 必须含 `src/api/length/**` |
-
-## 枚举（`src/enum/<资源>/<字段>.ts`）
-
-schema / query / body 字段带 **`enum`** 时，必须落盘到枚举目录。
-
-| 规则 | 说明 |
-| --- | --- |
-| 路径 | `src/enum/<资源>/<字段>.ts`。资源 = api 文件名（已剥 `client-`） |
 | 导出 | `enum` +（可选）`xxxType` 色值映射 + `useXxx`。`useXxx` **只返回两项**：`xxxList` + `xxxFormatter` |
-| 类型引用 | `src/api/types/<资源>.d.ts` 里 `import type` 该 enum |
+| 类型引用 | 本端 `src/api/types/<资源>.d.ts` 里 `import type` 该 enum |
+| label | 走 i18n，不要在枚举文件里写死中文 |
 
-## 类型（`src/api/types/<资源>.d.ts`）
+### 类型（`src/api/types/<资源>.d.ts`）
 
 **禁止**在实现文件里内联参数/响应对象类型。一律具名 interface。
 
@@ -86,17 +93,18 @@ schema / query / body 字段带 **`enum`** 时，必须落盘到枚举目录。
 - **分页 Params 只写业务筛选字段**，禁止写 `pageNum` / `pageSize`
 - 分页列表响应：`SearchResponse<行类型>`
 
-## 函数体（`src/api/<资源>.ts`）
+### 函数体（`src/api/<资源>.ts`）
 
-- **文件最顶部**先写 `export type * from './types/<资源>'`
+- **文件最顶部**先写 `export type * from './types/<资源>'`，再 `export * from './paths/<资源>'`
+- 文件头：tag 名 + description：`/***************************** 认证管理（…） *****************************/`
 - HTTP → `request.get` / `post` / `put` / `delete`
 - 未登录接口加 `{ noAuth: true }`
 - **已存在的 `*.ts` / `*.d.ts`：只增补、改名或局部替换，禁止整文件覆盖**
 
 ## 流程
 
-1. 拉 `v3/api-docs`（见上方文档 JSON）
-2. 每个 tag：写/更新 `src/api/<资源>.ts` + `src/api/types/<同名>.d.ts`（只动该板块）
+1. 确认是 `apps/client` 还是 `apps/admin`，拉对应的 `v3/api-docs`
+2. 每个 tag：只更新该端的 `src/api/<资源>.ts`、`paths`、`types`、`length`、`enum`
 3. schema `required` → 必填；其余 `?`
 
 ## 替换旧 api 文件时（易错，禁止再犯）

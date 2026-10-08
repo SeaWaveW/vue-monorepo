@@ -170,7 +170,7 @@ sameChannel.on((type: 'refresh' | 'reload') => {
 	min-height: 0;
 	overflow: hidden;
 
-	.sqt-text {
+	.saco-text {
 		cursor: pointer;
 	}
 }

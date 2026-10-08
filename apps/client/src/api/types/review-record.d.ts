@@ -1,6 +1,6 @@
 import type { SearchResponse } from './index'
-import type { ReviewRecordDeleteStatus } from '@/enum/review-record/delete-status'
-import type { ReviewRecordReviewStatus } from '@/enum/review-record/review-status'
+import type { ReviewRecordDeleteStatus } from '@/api/enum/review-record/delete-status'
+import type { ReviewRecordReviewStatus } from '@/api/enum/review-record/review-status'
 import type {
 	DynamicFormDetailResponse,
 	DynamicFormDataRecord,

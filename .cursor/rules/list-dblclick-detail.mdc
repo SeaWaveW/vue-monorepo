@@ -1,32 +1,32 @@
 ---
 description: 列表进详情只走行双击，禁止把标识列做成可点链接
 globs:
-  - "src/views/**/index.vue"
+  - "apps/*/src/views/**/index.vue"
 alwaysApply: true
 ---
 
 # 列表进详情只双击行
 
-踩过的坑：本人 AI 审核记录列表，稿面 / 用户没说标识可点，却把第一列做成 `SqtText` + `@click` 跳详情。项目里列表一律 **双击行** 进详情。
+踩过的坑：本人 AI 审核记录列表，稿面 / 用户没说标识可点，却把第一列做成 `SacoText` + `@click` 跳详情。客户端和管理端列表一律 **双击行** 进详情。
 
 ## 必须
 
-- `SqtTable` 写 `@row-dblclick="handleRowDblclick"`，里面 `router.push(.../detail/${row.id})`
+- `SacoTable` 写 `@row-dblclick="handleRowDblclick"`，里面 `router.push(.../detail/${row.id})`
 - 标识 / 名称列和其它文本列一样：`prop` + `:formatter="leachFormatter"`
 
 ```vue
-<SqtTable :data="dataList" @row-dblclick="handleRowDblclick">
-	<SqtTableColumn
+<SacoTable :data="dataList" @row-dblclick="handleRowDblclick">
+	<SacoTableColumn
 		:label="t('control_review_id')"
 		prop="reviewRecordIdentifier"
 		width="432px"
 		:formatter="leachFormatter"
 	/>
-</SqtTable>
+</SacoTable>
 ```
 
 ## 禁止
 
-- 第一列包 `SqtText type="primary"` / `@click` / 手形光标当链接
+- 第一列包 `SacoText type="primary"` / `@click` / 手形光标当链接
 - 设计稿里标识旁的小图标不要当成「单击进详情」
 - 用户没点名的跳转、按钮、交互不要自己加
