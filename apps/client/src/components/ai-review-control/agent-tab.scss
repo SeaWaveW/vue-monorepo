@@ -1,0 +1,43 @@
+@use 'sass:math';
+
+/** 页内页签和挂 body 的幽灵共用，改一处两边齐 */
+@mixin agent-tab-face {
+	.agent-tab {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		width: 100%;
+
+		$icon-size: 24px;
+		$icon-dev: 8px;
+
+		.agent-tab__name {
+			position: relative;
+			display: flex;
+			align-items: center;
+			padding: 0 #{$icon-size + $icon-dev};
+
+			label {
+				flex: 1;
+				font-size: 18px;
+				color: var(--black-color);
+				text-align: center;
+				cursor: pointer;
+			}
+
+			.agent-tab__check {
+				position: absolute;
+				right: #{math.div($icon-dev, 1.5)};
+				font-size: $icon-size;
+				color: var(--primary-color);
+			}
+		}
+
+		.agent-tab__desc {
+			padding: 0 var(--common-gap);
+			font-size: 16px;
+			color: var(--info-color);
+			text-align: center;
+		}
+	}
+}

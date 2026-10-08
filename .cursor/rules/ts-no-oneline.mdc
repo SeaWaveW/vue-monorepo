@@ -1,0 +1,29 @@
+---
+description: TS 不要把断言、三元、条件挤在一行
+globs: ["**/*.ts"]
+alwaysApply: false
+---
+
+# 不要硬放到一行
+
+工具函数、`use` 里禁止把类型断言、可选链、三元、提前 return 挤成一行。先拆类型 / 取变量，再用 `if` 块。
+
+```ts
+// ❌
+const fn = el.requestFullscreen || (el as HTMLElement & { webkitRequestFullscreen?: () => Promise<void> }).webkitRequestFullscreen
+if (isDocumentFullscreen(doc)) return Promise.resolve()
+return fn ? Promise.resolve(fn.call(el)) : Promise.resolve()
+
+// ✅
+type WebkitElement = HTMLElement & {
+  webkitRequestFullscreen?: () => Promise<void>
+}
+const webkitEl = el as WebkitElement
+const request = el.requestFullscreen ?? webkitEl.webkitRequestFullscreen
+if (!request) {
+  return Promise.resolve()
+}
+return Promise.resolve(request.call(el))
+```
+
+`if` / `else` 必须带花括号，哪怕只有一句。

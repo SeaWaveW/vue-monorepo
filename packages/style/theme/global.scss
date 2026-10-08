@@ -1,0 +1,8 @@
+/* Vite additionalData 入口：必须 @forward，@use 不会把成员再暴露给外层。
+ * sacoCommonScssAdditionalData 返回函数，按正在编译的文件算相对路径再 @use 本文件。
+ * 不要写 D:/ 绝对路径（Sass 把盘符当 URL scheme，sourcemap 会丢），
+ * 也不要改成字符串让 SacoUiPlugin 内联 @forward。
+ * mixin / 函数在 packages/style/mixins，不和主题变量、saco-ui 覆盖混在一起。
+ */
+@forward './saco-ui.scss';
+@forward '../mixins/index.scss';

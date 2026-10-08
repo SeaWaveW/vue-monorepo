@@ -1,0 +1,90 @@
+.saco-upload-image {
+	// 宽随父级，高用 aspect-ratio 跟宽走；内容绝对铺满，避免撑破 1:1
+	position: relative;
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+	cursor: pointer;
+	background-color: var(--white-color-3);
+	border-radius: var(--upload-image-radius, 8px);
+
+	label {
+		cursor: pointer;
+	}
+
+	&.is-disabled {
+		cursor: not-allowed;
+
+		label {
+			cursor: not-allowed;
+		}
+
+		.saco-upload-image__delete {
+			cursor: not-allowed;
+		}
+	}
+
+	.saco-upload-image__container {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--common-gap) * 2.5);
+		align-items: center;
+		justify-content: center;
+		padding: calc(var(--common-gap) * 2.4) calc(var(--common-gap) * 1.6);
+	}
+
+	.saco-upload-image__title {
+		font-size: var(--font-size);
+		line-height: 1.4;
+		color: var(--black-color);
+		text-align: center;
+	}
+
+	.saco-upload-image__icon-box {
+		.saco-upload-image__icon {
+			font-size: 40px;
+			color: var(--black-color);
+		}
+	}
+
+	.saco-upload-image__tips {
+		padding: 0 calc(var(--common-gap) * 1.6);
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.4;
+		color: var(--info-color);
+		text-align: center;
+		word-break: break-all;
+	}
+
+	&.is-preview {
+		.saco-upload-image__container {
+			padding: 0;
+		}
+	}
+
+	.saco-upload-image__preview {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: var(--upload-image-radius, 8px);
+	}
+
+	.saco-upload-image__delete {
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		font-size: 16px;
+		color: var(--white-color);
+		cursor: pointer;
+		filter: drop-shadow(0 0 2px var(--black-color-1));
+
+		&:hover {
+			color: var(--danger-color);
+		}
+	}
+}

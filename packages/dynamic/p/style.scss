@@ -1,0 +1,11 @@
+.dynamic-p {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: calc(var(--common-gap) * 0.2) 0;
+
+	// margin-bottom: 66px;
+	margin-bottom: calc(var(--common-gap) * 3);
+	font-size: 20px;
+	color: var(--black-color);
+}

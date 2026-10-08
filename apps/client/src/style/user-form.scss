@@ -1,0 +1,9 @@
+.user-form {
+	:deep(.saco-card) {
+		&.function-card {
+			.saco-text {
+				cursor: pointer;
+			}
+		}
+	}
+}

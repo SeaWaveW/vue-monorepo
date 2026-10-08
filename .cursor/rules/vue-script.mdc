@@ -1,0 +1,29 @@
+---
+description: Vue 组件逻辑规范
+globs: ["**/*.vue"]
+alwaysApply: true
+---
+
+# Vue 组件规范
+
+## 语法
+- 使用 Vue 3 Composition API + `<script setup>` 语法
+- TypeScript 优先，明确所有 props 和 emits 的类型
+
+## 命名
+- 组件名：大驼峰 (PascalCase)
+- 变量/函数：小驼峰 (camelCase)
+- 常量：全大写 + 下划线 (SCREAMING_SNAKE_CASE)
+- `useXxx` 只给有 Vue 绑定的组合式；一次性取值用 `getXxx` / 动词（见 `naming.mdc`）
+
+## 结构顺序
+1. `defineProps` / `defineEmits`
+2. `useXxx` / `getXxx`
+3. `ref` / `reactive` 状态
+4. `computed` 计算属性
+5. `watch` 侦听器
+6. 方法/函数
+7. `onMounted` 等生命周期
+
+## 表单文案
+标签和校验、同模块增改详情列表，同一字段必须同一个 i18n key（见 `form-i18n-label.mdc`）。禁止从邻页抄 `message`。

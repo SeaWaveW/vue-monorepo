@@ -1,0 +1,120 @@
+.phone-input {
+	width: 100%;
+
+	// 左内边距加在国旗上，不要加在 Input 上，否则 Popper 会跟着区号一起往右偏
+	padding-inline-start: 0;
+
+	.prepend {
+		padding: 0;
+		background: transparent;
+	}
+
+	// class 在 Popper 上会落到 .saco-select 自己，不是再包一层
+	.phone-input__dial {
+		flex: 0 0 auto;
+		width: max-content;
+		max-width: 12em;
+		min-height: 0;
+		outline: none;
+		background-color: transparent;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+
+		&:hover:not(.is-disabled),
+		&:focus,
+		&.is-focus:not(.is-disabled) {
+			outline: none;
+			background-color: transparent;
+			border-color: transparent;
+			box-shadow: none;
+		}
+
+		.select-inner {
+			padding-inline: calc(var(--control-height) * 0.45)
+				calc(var(--common-gap) * 0.4);
+		}
+
+		.select-label {
+			flex: none;
+		}
+	}
+
+	.phone-input__option {
+		display: inline-flex;
+		gap: calc(var(--common-gap) * 0.6);
+		align-items: center;
+	}
+
+	.phone-input__flag {
+		display: inline-block;
+		flex-shrink: 0;
+		width: 22px;
+		height: 16px;
+
+		// theme-chalk 会 fill: currentColor，国旗路径色会被盖成字色
+		fill: unset;
+
+		// 懒挂时国旗在占位盒里，类名挂在 SacoSvg 上才能撑满
+		.phone-input__glyph {
+			display: block;
+			width: 100%;
+			height: 100%;
+			fill: unset;
+		}
+
+		svg {
+			width: 100%;
+			height: 100%;
+			fill: unset;
+		}
+	}
+}
+
+// appendToBody，和上面同一份文件，不要 scoped
+.saco-popper.phone-input-dial-popper {
+	.select-dropdown {
+		max-height: min(360px, 50vh);
+		padding-top: 0;
+
+		@include overflow-y-hover;
+
+		overscroll-behavior: contain;
+	}
+
+	.dropdown-input {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		height: calc(var(--control-height) + var(--blank-space));
+		padding-top: var(--blank-space);
+		background-color: inherit;
+	}
+
+	.phone-input__option {
+		display: inline-flex;
+		gap: calc(var(--common-gap) * 0.8);
+		align-items: center;
+	}
+
+	.phone-input__flag {
+		display: inline-block;
+		flex-shrink: 0;
+		width: 22px;
+		height: 16px;
+		fill: unset;
+
+		.phone-input__glyph {
+			display: block;
+			width: 100%;
+			height: 100%;
+			fill: unset;
+		}
+
+		svg {
+			width: 100%;
+			height: 100%;
+			fill: unset;
+		}
+	}
+}

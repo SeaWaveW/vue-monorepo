@@ -1,0 +1,62 @@
+// 画布 / 预览 / 客户端同一套：从外壳穿透，避免 mixin 里再套 :deep 打不到上传
+// 列数、跨列只认 --proportion-columns / --proportion-span，不吃页面 --grid-column-size
+// 只给业务 @use，不要写进 style/index.scss（mixin 不 @include 不会出 CSS，进入口也没意义）
+$dynamic-form-item-height: 75px;
+$dynamic-form-item-radius: 6px;
+$dynamic-form-item-column-gap: calc(var(--common-gap) * 1.7);
+
+// 校验文案 position:absolute; top:100%，不占流，行距留给错误信息
+$dynamic-form-item-row-gap: calc(var(--common-gap) * 2);
+
+@mixin dynamic-form-grid {
+	display: grid;
+	grid-template-columns: repeat(var(--proportion-columns), minmax(0, 1fr));
+	gap: $dynamic-form-item-row-gap $dynamic-form-item-column-gap;
+	align-items: start;
+}
+
+@mixin dynamic-form-item-box {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	grid-column: span
+		min(var(--proportion-span, 1), var(--proportion-columns, 1));
+	min-width: 0;
+	height: $dynamic-form-item-height;
+	min-height: $dynamic-form-item-height;
+	max-height: $dynamic-form-item-height;
+
+	:deep(.saco-form-item) {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		width: 100%;
+		min-height: 0;
+		margin-bottom: 0;
+	}
+
+	:deep(.saco-form-item__label) {
+		flex-shrink: 0;
+		text-indent: 0.2em;
+	}
+
+	:deep(.saco-form-item__content) {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		justify-content: flex-end;
+		min-height: 0;
+	}
+
+	// 仍在格子下方，比默认 top:100% 近 4px
+	:deep(.saco-form-item__error) {
+		top: calc(100% - 4px);
+	}
+
+	:deep(.saco-upload-single) {
+		flex: 1;
+		height: 100%;
+		min-height: 0;
+		border-radius: $dynamic-form-item-radius;
+	}
+}

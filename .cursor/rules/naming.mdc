@@ -1,0 +1,31 @@
+---
+description: use 只给有绑定的组合式；一次性取值用 get / 动词
+alwaysApply: true
+---
+
+# 命名：`use*` 只给有绑定的
+
+按有没有 Vue **绑定**分流。不要因为内部调了 `useRoute` 就一律 `use`。
+
+**`useXxx`**：对外是响应式 / 双向绑定。返回 `ref` / `reactive`、可写回、卸载要清理。须在 setup 调。
+
+**`getXxx` / 动词**：一次性取值、纯函数。内部顺手 `useRoute()` 但返回普通对象，仍叫 `getRouterParams`，不要 `useRouterParams`。
+
+```ts
+// ✅ 只读一次 params
+export const getRouterParams = <T extends ParamValue[]>(keys: string[]) => {}
+
+// ❌ 没有绑定却叫 use
+export const useRouterParams = <T extends ParamValue[]>(keys: string[]) => {}
+
+// ✅ 有倒计时 ref + 卸载清理
+export const useCountDown = (time: number) => {}
+
+// ✅ 按 id 拉详情，返回普通数组（修改页 / 详情页也会调）
+export const getRowsByIds = async <A>(ids: number[], api: A) => {}
+
+// ❌ 一次性拉数不要包 ref 改叫 use；也不是「已选择」
+export const useSelectedData = (api: A) => {}
+```
+
+表格跨页勾选（`ref` + `watch`）才是 `useTableSelection`。修改 / 详情只是按 id 取整行，名字不要带 Selected。

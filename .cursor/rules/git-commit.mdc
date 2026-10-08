@@ -1,0 +1,41 @@
+---
+description: Git 提交信息规范（Conventional Commits + commitlint）
+alwaysApply: true
+---
+
+# Git 提交
+
+提交信息必须能通过根目录 `commitlint`（Husky `commit-msg` 钩子）。不要用 `--no-verify` / `--no-gpg-sign` 跳过。
+
+**本地 link 依赖**：提交前见 `.cursor/rules/local-link-deps.mdc`（去 link → commit → 再恢复 link）。
+
+## 格式
+
+```
+<type>(<scope>): <subject>
+
+<body>
+```
+
+- `type` 必填，小写：`feat` `fix` `docs` `style` `refactor` `perf` `test` `build` `ci` `chore` `revert`
+- `scope` 可选：页面或模块名，如 `home` `router` `store`
+- `subject` 可用中文；不以句号/`.` 结尾；整行（含 type）不超过 100 字
+- 有 body 时，标题与正文空一行；正文写 **为什么**，不要堆文件清单
+
+## 示例
+
+```
+feat(home): 首页表单支持上传组件校验
+
+fix: 修复根目录找不到 vite/client 类型
+
+chore: 初始化 vue 模板项目
+```
+
+## 反例
+
+```
+修复类型错误
+Fix: update tsconfig.
+feat: 添加新功能。
+```

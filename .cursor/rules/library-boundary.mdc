@@ -1,0 +1,32 @@
+---
+description: 公共库配置归 common；禁止循环依赖、写死名单、全量引入 UI
+alwaysApply: true
+---
+
+# 公共库边界（硬性）
+
+这次线上/本地踩过的坑，改 `@sqt/common` 或业务 Vite 时按下面做。
+
+## 1. 公共库的配置只放公共库
+
+`optimizeDeps` / `resolve.dedupe` / 拆包 `createViteOutputs` / `sqtCommonSvgDirs` / `sqtCommonSvgIcons` / `sqtCommonScssAdditionalData` 的默认行为写在 `@sqt/common/vite` 或 `@sqt/common/resolver`。
+
+业务 `vite.config.ts` 只调用：`sqtCommonOptimizeDeps()`、`createViteOutputs({ root })`。不要在管理端/客户端再抄一份 `qs` include、`vue-export-helper` 分组、图标名单。缺了就改 common 再发包。
+
+## 2. 改完不能留下循环依赖
+
+源码直出时，入口 chunk 和 `@sqt/common` 不能互相 import。典型：scoped SFC 的 `_export_sfc`（`plugin-vue:export-helper`）落进入口，common 再回引 → `R is not a function`。
+
+拆包分组先切 helper，再切 vue / vendor。不要把 `@sqt/common` 和 vue 栈并进同一块。改拆包后必须本地 `pnpm exec vite build`（见 `prod-build-before-ship.mdc`），看 common chunk 有没有 `from "./index-*.js"`。有则循环依赖，线上会 `R is not a function` / `o is not a function`。
+
+## 3. 打包名单不能写死
+
+插件不扫 `node_modules` 里的 common。布局 svg 按 `src/assets/svg` 文件名收；UI 内置名从本包源码扫（`name="x"` / `'x' as SvgName`）再和 UI 资源目录求交。禁止 `['success-filled', 'close']` 这种写死数组。动态拼名才走 `sqtCommonSvgIcons(...extra)`。
+
+`createViteOutputs` 的拆包组必须读 **业务 + `@sqt/common` 的 `dependencies`**（`@sqt/*` 再下一层，如 axios / pinia）。只读业务直依时，ali-oss / axios / dayjs 会全进 `vendor`（800KB+）。禁止手写 `['ali-oss', 'qs']`。`@types/*` 不要进拆包组。
+
+## 4. 禁止全量引入 `@sqt/ui`
+
+运行时值必须 `from '@sqt/ui/es/components/<kebab>'`（`SqtMessage` 走 `/message`）。`from '@sqt/ui'` 会拉 `es/index.mjs` 整包组件 + 样式。
+
+`import type { SvgName }` 可以走主包（编译后消失）。本包源码不能靠业务 auto-import。

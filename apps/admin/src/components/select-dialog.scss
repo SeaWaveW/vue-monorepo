@@ -1,0 +1,62 @@
+// @use 后本文件单独编译，页面 additionalData 里的 mixin 进不来
+@use '#/style/mixins/overflow-hover.scss' as *;
+
+.select-dialog {
+	display: flex;
+	flex: 1;
+	gap: var(--common-gap);
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+
+	.select-dialog__table {
+		flex: 1;
+		min-width: 0;
+		height: 100%;
+		min-height: 0;
+	}
+
+	.select-dialog__selected {
+		flex-shrink: 0;
+		width: 457px;
+		height: 100%;
+		min-height: 0;
+		padding-right: 0;
+		padding-left: 0;
+
+		:deep(.sqt-card__header) {
+			padding-right: var(--card-x-padding);
+			padding-left: var(--card-x-padding);
+		}
+
+		:deep(.sqt-card__body) {
+			@include overflow-y-hover;
+
+			min-height: 0;
+
+			.select-dialog__item {
+				display: flex;
+				gap: calc(var(--common-gap) * 0.6);
+				align-items: center;
+				justify-content: space-between;
+				min-height: 50px;
+				padding: calc(var(--common-gap) / 2) var(--card-x-padding);
+				background-color: var(--grey-color-13);
+
+				.select-dialog__name {
+					flex: 1;
+					font-size: 16px;
+				}
+
+				.sqt-text {
+					font-size: 16px;
+					cursor: pointer;
+				}
+
+				&:hover {
+					background-color: var(--white-color-2);
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,76 @@
+// 页签底部滚动条指示。由业务包在指定的 `.saco-tabs` 上：
+// `:deep(.saco-tabs) { @include tabs-scroll-border(...) }`
+// 必须具名传入，顺序：size / height / font-size / 条宽 / 圆角 / gap。
+// 新增参数只能加在最后；插中间会把按位置传的条宽当成 gap。
+@mixin tabs-scroll-border(
+	$item-size: null,
+	$item-height: null,
+	$item-font-size: null,
+	$active-border-width: null,
+	$active-border-radius: null,
+	$item-gap: null
+) {
+	.saco-tabs__header {
+		margin-bottom: 0;
+		container-type: inline-size;
+		overflow-x: auto;
+		user-select: none;
+		scrollbar-width: none;
+		border-bottom: none;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		.saco-tabs__nav {
+			display: grid;
+			flex: none;
+			grid-auto-flow: column;
+			width: max-content;
+			min-width: 100%;
+
+			@if $item-gap {
+				grid-auto-columns: calc(
+					(100cqw - (#{$item-size} - 1) * #{$item-gap}) /
+						#{$item-size}
+				);
+				gap: $item-gap;
+			} @else {
+				grid-auto-columns: calc(100cqw / #{$item-size});
+			}
+		}
+
+		.saco-tabs__item {
+			min-width: 0;
+
+			@if $item-height {
+				height: $item-height;
+			}
+
+			@if $item-font-size {
+				font-size: $item-font-size;
+			}
+
+			// 指示改走组件的滑动条，item 再画边框会叠两套
+			border-bottom: none;
+
+			&:not(.is-active) {
+				&:hover {
+					color: var(--main-color);
+				}
+			}
+		}
+
+		.saco-tabs__active-bar {
+			background-color: var(--main-color);
+
+			@if $active-border-width {
+				height: $active-border-width;
+			}
+
+			@if $active-border-radius {
+				border-radius: 0 0 $active-border-radius $active-border-radius;
+			}
+		}
+	}
+}

@@ -1,0 +1,10 @@
+// 页面表单列。列数认 layout 上的 --grid-column-size。
+// ui-reset 的 .saco-form 和卡片里另起的栅格都 @include，改这里两边一起变。
+@mixin form-grid {
+	display: grid;
+	grid-template-columns: repeat(var(--grid-column-size), 1fr);
+	column-gap: calc(var(--common-gap) * 2.3);
+
+	// 默认 stretch：同行 textarea 拖高后矮项一起被拉高，校验文案会离开输入框
+	align-items: start;
+}

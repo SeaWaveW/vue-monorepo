@@ -1,0 +1,44 @@
+// ======================== 屏幕旋转 ========================
+// 属性在 html 上。> * 会打中 head / body，原来包一层时的子节点现在是 #app 的直接子节点
+html[data-device-type] {
+	width: 100%;
+	height: 100%;
+
+	// :where 去掉 #app 的 id 权重。否则会盖住页面自己的 height: auto（非 PC 首页要跟着内容变高）
+	:where(#app) {
+		> * {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+	}
+
+	// 手机竖屏不改布局，由 CommonRotateScreen 提示用户把设备转成横屏
+	// 直接用 env()，不读 --saco-safe-area-*（脚本写成内联 0px 会压过这里）
+	--safe-area-left: env(safe-area-inset-left, 0px);
+	--safe-area-right: env(safe-area-inset-right, 0px);
+
+	// 横屏圆角两侧都有 inset。只留刘海那一侧，另一侧清掉
+	// 快速左右转是 180°，方向属性由脚本换成另一侧；这里仍按属性清掉没有刘海的那边
+	&[data-device-direction='landscape-primary'] {
+		--safe-area-right: 0px;
+	}
+
+	&[data-device-direction='landscape-secondary'] {
+		--safe-area-left: 0px;
+	}
+
+	// ============= 组件级 =============
+	.saco-drawer {
+		&.ltr {
+			padding-left: calc(var(--safe-area-left) * var(--safe-area-ratio));
+		}
+
+		&.rtl {
+			padding-right: calc(
+				var(--safe-area-right) * var(--safe-area-ratio)
+			);
+		}
+	}
+}

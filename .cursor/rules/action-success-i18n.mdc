@@ -1,0 +1,30 @@
+---
+description: 操作成功 toast 必须用对应动作 key，禁止套用 modified_successfully
+globs:
+  - "src/views/**/*.vue"
+  - "src/components/**/*.vue"
+alwaysApply: true
+---
+
+# 成功文案跟动作走
+
+踩过的坑：重命名成功却写 `t('modified_successfully')`。按钮 / 弹窗标题是 `rename`，toast 必须是 `rename_successfully`。
+
+## 必须
+
+- `SqtMessage.success` 用**该动作自己的** key：`{动作}_successfully`（已有 `delete_successfully` / `remark_modified_successfully` / `rename_successfully`）。
+- 仓库里没有这个 key 时，**同一改动里加上**：`report_review_product/language-variable/language.xlsx` 的「弹窗提示」+ `@sqt/common` 的 `src/i18n/language.xlsx`，再 `pnpm i18n:local`。不要只改页面。
+- 文案跟动作名对齐：`重命名` → `重命名成功！`，不要用「修改成功」。
+
+```ts
+// ✅
+SqtMessage.success(t('rename_successfully'))
+
+// ❌ 重命名套用修改成功
+SqtMessage.success(t('modified_successfully'))
+```
+
+## 禁止
+
+- 新操作还去抄邻页的 `modified_successfully`
+- 只改 `t('…')`、xlsx / 生成物不补 key

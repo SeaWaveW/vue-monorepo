@@ -1,0 +1,54 @@
+{
+	"name": "vue-monorepo",
+	"private": true,
+	"type": "module",
+	"packageManager": "pnpm@11.13.0",
+	"scripts": {
+		"serve:client": "pnpm --filter client serve",
+		"serve:admin": "pnpm --filter admin serve",
+		"build:client": "pnpm --filter client build",
+		"build:admin": "pnpm --filter admin build",
+		"lint": "eslint .",
+		"format": "web-lint prettier --write .",
+		"stylelint": "web-lint stylelint --fix"
+	},
+	"dependencies": {
+		"@capacitor/device": "^8.0.3",
+		"@saco/axios": "^1.0.2",
+		"@saco/monitor": "^1.0.0",
+		"@saco/pinia": "^3.0.401",
+		"@saco/rem-plugin": "^1.0.0",
+		"@saco/theme": "^2.0.3",
+		"@saco/ui": "^1.0.0",
+		"@types/ali-oss": "^6.23.3",
+		"@types/qs": "^6.15.1",
+		"ali-oss": "^6.23.0",
+		"dayjs": "^1.11.23",
+		"dompurify": "^3.4.15",
+		"exceljs": "^4.4.0",
+		"marked": "^18.0.13",
+		"qs": "^6.15.3",
+		"vue": "^3.5.42",
+		"vue-i18n": "^11.4.10",
+		"vue-router": "^5.3.1"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^21.2.2",
+		"@saco/types": "^1.0.3",
+		"@saco/web-lint": "^1.0.0",
+		"eslint": "^10.9.1",
+		"prettier": "^3.9.6",
+		"stylelint": "^17.14.1",
+		"vite": "^8.2.2"
+	},
+	"stylelint": {
+		"extends": [
+			"@saco/web-lint/stylelint"
+		]
+	},
+	"commitlint": {
+		"extends": [
+			"@saco/web-lint/commitlint"
+		]
+	}
+}

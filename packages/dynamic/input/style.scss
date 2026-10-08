@@ -1,0 +1,44 @@
+// 包装层差异；按需 theme-chalk 在 @layer saco-ui，未分层的本文件同权重也能赢。
+// :not(.is-focus) 会盖掉分层里的校验红框：is-error 在 form-item 上，不在输入框上。
+.saco-input {
+	font-size: var(--font-size);
+	background-color: var(--white-color-3);
+	border-radius: 6px;
+
+	&:not(.is-focus) {
+		border-color: transparent;
+	}
+
+	.suffix {
+		.close {
+			.saco-svg {
+				font-size: var(--svg-size) !important;
+			}
+		}
+	}
+
+	&.is-focus {
+		input {
+			&::placeholder {
+				color: transparent;
+			}
+		}
+	}
+
+	// 字号写在内层 native 控件上，外壳改了 inherit 不到
+	input,
+	textarea {
+		font-size: inherit;
+	}
+
+	// 当是在表单中，且有错误时，显示红色边框
+	.saco-form-item.is-error & {
+		border-color: var(--danger-color);
+	}
+
+	// 当在表格时
+	.saco-table & {
+		height: 40px;
+		border-color: var(--primary-color);
+	}
+}

@@ -1,0 +1,58 @@
+---
+description: Vue 文件样式规范 - 确保 CSS 智能提示正常
+globs: ["**/*.vue"]
+alwaysApply: true
+---
+
+# Vue 样式规则
+
+## 智能提示要求
+- 在 `<style>` 块中，必须提供完整的 CSS 属性智能提示和自动补全
+- 支持 SCSS/Less 语法高亮和提示
+- Emmet 缩写必须在 Vue 模板和样式块中正常工作
+
+## 样式规范
+- 所有 `<style>` 块必须添加 `scoped` 或 `module` 属性，避免样式污染
+- 优先使用 CSS 自定义属性（变量），格式：`var(--color-primary)`
+- 类名采用 BEM 命名规范：`.block__element--modifier`
+- 禁止使用 `!important`，除非是覆盖第三方库样式
+- 颜色值必须使用设计系统 Token，禁止硬编码 `#` 开头的色值
+
+## 嵌套（硬性）
+
+同一 block 的伪元素、伪类、`@keyframes` **写在该 block 里面**，禁止 `.block` 和 `.block::before` 平级摊开。改一处时要能在同一个大括号里找到。
+
+- BEM 子类写完整类名再 nest（禁止 `&__edit`）
+- `::before` / `::after` / `:hover` 用 `&`（写成 `.block { .block::before }` 会编成后代选择器，对不上）
+- `@keyframes` 嵌在本 block，外包 `@at-root`，否则浏览器不登记动画
+
+```scss
+// ✅ 伪元素、关键帧都在本 block
+.review-progress-dialog {
+	&::before {
+		animation: review-shadow-pulse 2s ease-in-out infinite;
+	}
+
+	@at-root {
+		@keyframes review-shadow-pulse {
+			50% {
+				box-shadow: 0 0 50px 6px var(--primary-color);
+			}
+		}
+	}
+}
+
+// ❌ 摊平级，改的时候找不到
+.review-progress-dialog {
+}
+.review-progress-dialog::before {
+}
+@keyframes review-shadow-pulse {
+}
+```
+
+Teleport / Popper 是**另一棵根**（popper 类名）才单独写。本 block 自己的 `::before` 不要拆出去。
+
+## 响应式
+- 移动优先原则，使用 `min-width` 的媒体查询
+- 断点变量：`--breakpoint-sm: 640px; --breakpoint-md: 768px; --breakpoint-lg: 1024px;`

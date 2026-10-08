@@ -1,0 +1,16 @@
+---
+description: 影响线上打包的改动必须先本地 vite build 再发
+alwaysApply: true
+---
+
+# 发生产前本地打包（硬性）
+
+踩过的坑：common 拆包并块只发包不本地编，流水线上线后白屏，`o is not a function`。
+
+动拆包 / PWA / `vite.config.ts` / `config/App.vue` / 会进首屏的 common，**commit、推流水线之前**在本仓：
+
+```bash
+pnpm exec vite build
+```
+
+exit 0；`dist` 里 common 块不要 `from "./index-*.js"`；能的话 `pnpm preview` 打开登录页，不是白屏。不要拿云效当第一次验证。

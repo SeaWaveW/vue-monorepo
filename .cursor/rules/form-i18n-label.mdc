@@ -1,0 +1,29 @@
+---
+description: 表单项标签、校验、同模块列表/详情必须用同一个 i18n key，禁止抄邻页文案
+globs:
+  - "src/views/**/*.vue"
+  - "src/components/**/*.vue"
+alwaysApply: true
+---
+
+# 字段文案跟标签走
+
+踩过的坑（管理端）：标签是 `t('client_subject')`，校验却抄邻页写成 `t('client_name')`。同一字段在列表/新增和编辑/详情也不一致。
+
+## 必须
+
+- `SqtFormItem` 的 `:label` 和 `formRules` 里对应 `prop` 的 `message`（`validate_please_select_any` / `validate_please_enter_any` / `validate_any_incorrect_format`）用**同一个** `t('…')`。
+- 国家呼叫代码正式名称是 `country_calling_code`（国家呼叫代码），不要用 dial / 区号 自撰。没选先 `validate_please_select_any` 这个 key。
+- 同一模块（add / edit / detail / index）同一字段同一 key。改标签就改校验，并扫同目录另外三页。
+- 写校验前先看**本页**标签，不要从邻页整段粘 `message`。
+- 依赖某字段才能点的按钮**不要** `:disabled`。未选时 `SqtMessage.warning`（文案和该字段 `formRules.message` 同一组 `t('…')`），并 `validateField` 对应 `prop`，错误落在表单项上。
+
+```ts
+// ✅ 和本页 label 一致
+<SqtFormItem :label="t('client_subject')" prop="tenantId">
+message: t('validate_please_select_any', [t('client_subject')])
+
+// ❌ 标签是 A，校验抄成 B
+<SqtFormItem :label="t('client_subject')" prop="tenantId">
+message: t('validate_please_select_any', [t('client_name')])
+```

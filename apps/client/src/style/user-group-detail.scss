@@ -1,0 +1,49 @@
+// @use 后本文件单独编译，页面 additionalData 里的 mixin 进不来
+@use '#/style/mixins/overflow-hover.scss' as *;
+
+.user-group-detail {
+	display: grid;
+	/** 首行/审计跟内容走，中间 1fr 给左右两卡内部滚 */
+	grid-template-rows: auto 1fr auto;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--common-gap);
+	/** 不写死 100% 时 1fr 按内容算，左右两卡会把整页撑高一起滚 */
+	height: 100%;
+	min-height: 0;
+	overflow: hidden;
+
+	:deep(.saco-card) {
+		margin-top: 0;
+
+		&.base-card,
+		&.audit-card {
+			grid-column: span 2;
+			/** 只占内容高度，不跟下一行两张卡对齐拉伸 */
+			align-self: start;
+			height: fit-content;
+		}
+
+		&.navigation-card,
+		&.function-card {
+			/** 跟 1fr 行走，body 才能吃满、过长时内部滚 */
+			height: 100%;
+			min-height: 0;
+
+			.saco-card__body {
+				min-height: 0;
+			}
+		}
+
+		&.navigation-card {
+			.saco-card__body {
+				@include overflow-y-hover;
+			}
+		}
+
+		&.function-card {
+			.saco-card__body {
+				overflow: hidden;
+			}
+		}
+	}
+}

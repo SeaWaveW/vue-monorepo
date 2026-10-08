@@ -1,0 +1,53 @@
+.remark-input {
+	display: flex;
+	gap: calc(var(--common-gap) / 2);
+	align-items: center;
+	width: 100%;
+
+	.remark-input__text {
+		flex: 1;
+		min-width: 0;
+		text-align: left;
+		cursor: text;
+		user-select: text;
+
+		.remark-input__value {
+			display: inline-block;
+			max-width: 100%;
+			text-align: left;
+			overflow-wrap: break-word;
+			white-space: pre-wrap;
+		}
+	}
+
+	.remark-input__edit {
+		display: block;
+		flex-shrink: 0;
+		width: max-content;
+		height: max-content;
+		padding: calc(var(--common-gap) * 0.6);
+		font-size: 14px;
+		color: var(--grey-color-18);
+		cursor: pointer;
+	}
+}
+
+.remark-input__panel {
+	box-sizing: border-box;
+	width: max-content;
+	max-width: 80vw;
+	padding: calc(var(--common-gap) * 1.6);
+
+	.remark-input__field {
+		// 328 = 原面板 360 减去左右 padding；拖过之后组件会写成像素宽
+		width: 328px;
+		max-width: calc(80vw - 32px);
+	}
+
+	.remark-input__actions {
+		display: flex;
+		justify-content: flex-end;
+		width: 100%;
+		margin-top: calc(var(--common-gap) * 1.2);
+	}
+}

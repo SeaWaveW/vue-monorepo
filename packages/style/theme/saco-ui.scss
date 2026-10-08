@@ -1,0 +1,13 @@
+/* 用业务 theme CSS 变量覆盖 @saco/ui；alpha-color 由 function.scss 提供 */
+@forward '@saco/ui/theme-chalk/src/common/var.scss' hide alpha-color with (
+	$font-size: var(--font-size),
+	$control-height: var(--control-height),
+	$primary-color: var(--primary-color),
+	$success-color: var(--success-color),
+	$warning-color: var(--warning-color),
+	$danger-color: var(--danger-color),
+	$info-color: var(--info-color),
+	$white-color: var(--white-color),
+	$black-color: var(--black-color),
+	$text-color: var(--text-color)
+);

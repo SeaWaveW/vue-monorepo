@@ -1,0 +1,49 @@
+.saco-upload-multiple {
+	position: relative;
+	display: inline-block;
+	padding: calc(var(--common-gap) / 2) var(--common-gap);
+	overflow: hidden;
+
+	@include upload-light-effect;
+
+	// &.is-focus {
+	//     &:not(.is-disabled) {
+	//         box-shadow: 0 0 0 1px #{ alpha-color(var(--primary-color), 70%) };
+	//     }
+	// }
+	// 可点击态
+	cursor: pointer;
+
+	// border: 1px solid #{ alpha-color(var(--info-color), 50%) };
+	border-radius: 8px;
+
+	&.is-disabled {
+		cursor: not-allowed;
+	}
+
+	.upload-container {
+		display: flex;
+		flex-direction: column;
+		gap: var(--common-gap);
+		align-items: center;
+		padding: calc(var(--common-gap) * 3) 10%;
+
+		.saco-upload-multiple__icon {
+			font-size: 40px;
+		}
+
+		p {
+			text-align: center;
+		}
+	}
+
+	// &:hover {
+	//     &:not(.is-disabled) {
+	//         .upload-container {
+	//             .saco-upload-multiple__icon {
+	//                 color: #{ alpha-color(var(--primary-color), 70%) };
+	//             }
+	//         }
+	//     }
+	// }
+}

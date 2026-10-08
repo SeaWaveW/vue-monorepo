@@ -1,0 +1,51 @@
+---
+description: 提交前去掉 @sqt/common 等本地 link，提交后再恢复联调
+alwaysApply: true
+---
+
+# 本地 link 与提交
+
+`package.json` 提交态不要写补丁号，也不要写 `link:`：
+
+```json
+"@sqt/common": "^1.0.0",
+"@sqt/ui": "*"
+```
+
+- `@sqt/common`：`^1.0.0` = 1.x 最新（`<2.0.0`）
+- `@sqt/ui`：`*` = 不限大版本，私服当前最新
+
+本地联调只写 `pnpm-workspace.yaml` 的 `overrides`，不要改 `package.json` 的版本：
+
+```yaml
+overrides:
+  '@sqt/common': link:../sqt-common
+  '@sqt/ui': link:../sqt-lib/ui
+```
+
+**禁止把 link 配置提交进仓库。** 用户要求提交时，agent 必须按下面流程处理。
+
+## 提交前（有 link 则必须做）
+
+1. `package.json`：`@sqt/common` 保持 `"^1.0.0"`，`@sqt/ui` 保持 `"*"`。若误写成 `link:` / `^1.0.178` 则改回这两档。不要读 common / ui 的 `version` 去拼补丁号。
+2. `pnpm-workspace.yaml`：删掉整个 `overrides:` 块。`minimumReleaseAgeExclude` 写整包 `'@sqt/common'`、`'@sqt/ui'`，**不要**列补丁号。
+3. 跑 `pnpm install`（不要 `pnpm update`，会把 `^1.0.0` / `*` 写成补丁号）。确认 lockfile 是私库 tarball，不是 `link:`。
+4. 再 `git add` / `commit`（只含 registry 版依赖）。
+
+## 提交后（用户还要继续本地开发则恢复）
+
+1. `package.json` **不要**改回 `link:`，保持 `"^1.0.0"` / `"*"`。
+2. `pnpm-workspace.yaml` 恢复：
+ ```yaml
+ overrides:
+   '@sqt/common': link:../sqt-common
+   '@sqt/ui': link:../sqt-lib/ui
+ ```
+3. `pnpm install`，确认 `node_modules/@sqt/common` 指回 `D:\sqt-project\sqt-common`；有 ui 时确认指回 `D:\sqt-project\sqt-lib\ui`。
+4. **不要**为恢复 link 再单独 commit。
+
+## 判断
+
+- `git diff` 里出现 `link:../sqt-common` / `link:..\\sqt-common` / `link:../sqt-lib/ui` → 未去 link，不能提交。
+- 用户只说「联调 / link 本地」→ 只改本地，不 commit。
+- 用户说「提交」→ 必须先走「提交前」；提交成功后默认走「提交后」恢复 link。

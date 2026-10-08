@@ -1,0 +1,28 @@
+// 全局滚动条皮肤（宽、色、hover 才画）。任意 overflow 都走这一套，
+// 不要在组件里再写 ::-webkit-scrollbar。占位用 overflow-y-hover 的 $reserve-gutter。
+* {
+	scrollbar-color: transparent transparent;
+	scrollbar-width: thin;
+
+	&::-webkit-scrollbar {
+		width: 4px;
+		height: 4px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: transparent;
+		border-radius: 2px;
+	}
+
+	&:hover {
+		scrollbar-color: var(--grey-color-5) transparent;
+
+		&::-webkit-scrollbar-thumb {
+			background: var(--grey-color-5);
+		}
+	}
+}

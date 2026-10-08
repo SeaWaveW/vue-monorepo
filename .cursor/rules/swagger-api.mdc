@@ -1,0 +1,108 @@
+---
+description: 按 Swagger 标签生成 src/api，枚举 label 必须走 i18n，字符串 maxLength 走 length 常量
+globs: ['src/api/**/*.ts', 'src/api/types/**/*.d.ts', 'src/api/length/**/*.ts', 'src/enum/**/*.ts', 'src/views/**/*.vue', 'src/components/**/*.vue']
+alwaysApply: false
+---
+
+# 从 Swagger 生成 API
+
+用户说「按 swagger 生成 / 同步 api」时：拉 OpenAPI，按 **tag（板块）** 生成或覆盖 `src/api/<资源>.ts`，把 swagger 原 path 写到 `src/api/paths/<同名>.ts`，把请求/响应类型写到 `src/api/types/<同名>.d.ts`，字符串 `maxLength` 写到 `src/api/length/<同名>/<字段>.ts`。
+
+## 地址
+
+- UI：`https://dev-review-client.gzst-test.com/c-api/swagger-ui/index.html`
+- 文档 JSON：`https://dev-review-client.gzst-test.com/c-api/v3/api-docs`（优先用这个解析，不要靠肉眼抄 UI）
+
+换环境时以用户给出的 swagger 域名为准，路径仍是 `/c-api/swagger-ui/index.html` 与 `/c-api/v3/api-docs`。本仓接口前缀是 `/c-api`。
+
+## 端前缀（client 仓）
+
+本仓只拉**非 admin** 接口。后端可能用段前缀或连写前缀（以实际 `v3/api-docs` 为准）：
+
+- 段：`/client/xxx/...`
+- 连写：`/client-xxx/...`
+- 无端前缀公共接口：`/auth/…`、`/oss/…`、`/review-agent/…`、`/agent-authorization/…`
+
+| 规则 | 说明 |
+| --- | --- |
+| **只拉非 admin** | 跳过 `/admin…`、`/admin-…` 与 `/health` |
+| **函数 / 类型 / path 常量保留 `client` 前缀** | 函数名、由函数派生的类型、path 常量**不要**再剥 `client`。例：`/client-ip-white/page` → `clientIpWhitePage` / `ClientIpWhitePageParams` / `CLIENT_IP_WHITE_PAGE` |
+| **文件名 / enum / length 剥 `client-`** | `/client-ip-white/page` → 文件 **`ip-white.ts`**、`src/enum/ip-white`、`src/api/length/ip-white`。无端前缀公共接口仍不加成：`/auth/…` → `auth.ts`，`/oss/…` → `oss.ts` |
+| **请求 URL 走 paths 常量** | 常量值 = swagger 原 path（含 `{id}`），与 `authApiList` 返回的权限串一致；`request` 只引用常量，禁止再手写 `'/client-ip-white/page'` |
+| **跳过健康检查** | `/health` 等负载均衡探活不生成 |
+
+## 文件与命名
+
+| 来源 | 规则 |
+| --- | --- |
+| 实现文件 | 资源名 **剥** `client-`。例：`/client-ip-white/page` → `ip-white.ts`；`/auth/send-login-code` → `auth.ts` |
+| path 常量 | 同名 → `src/api/paths/<剥前缀后的资源>.ts`。常量名 = 函数名的 SCREAMING_SNAKE（函数名已含 `client`）。例：`clientIpWhitePage` → `CLIENT_IP_WHITE_PAGE = '/client-ip-white/page'` |
+| 长度常量 | 同名资源文件夹 → `src/api/length/<剥前缀后的资源>/<字段>.ts`。例：`client-user` 的 `username` → `src/api/length/user/username.ts`，常量 `CLIENT_USER_USERNAME_MAX_LENGTH` |
+| 类型文件 | 同名 → `src/api/types/<剥前缀后的资源>.d.ts` |
+| 函数名 | path 全段转 camelCase（去掉 `/`、`{}`），**保留** `client`。例：`GET /client-ip-white/page` → `clientIpWhitePage` |
+| 文件头 | tag 名 + description：`/***************************** 认证管理（…） *****************************/` |
+
+`request` 已自动导入，**不要**手写 `import { request } from …`。业务枚举从 `@/enum/<资源>/<字段>` 取；长度从 `@/api/length/<资源>/<字段>` 取（`vite` 已扫 `src/api/length/**`，页面不必手写 import）。
+
+## path 常量（`src/api/paths/<资源>.ts`）
+
+| 规则 | 说明 |
+| --- | --- |
+| 路径 | `src/api/paths/<资源>.ts`，资源名与 `src/api/<资源>.ts` 相同（已剥 `client-`） |
+| 常量名 | 对应请求函数的 SCREAMING_SNAKE。`clientIpWhitePage` → `CLIENT_IP_WHITE_PAGE` |
+| 常量值 | **原样**抄 swagger `paths` 的 key，保留 `{id}`，不要剥 `client-` |
+| 类型 | `as const` |
+| 已有文件 | 只增补 / 改路径；不要整文件覆盖 |
+
+## 长度（`src/api/length/<资源>/<字段>.ts`）
+
+| 规则 | 说明 |
+| --- | --- |
+| 路径 | `src/api/length/<资源>/<字段>.ts`。资源 = api 文件名（kebab，**已剥** `client-`） |
+| 导出 | `as const` 数字常量。常量名仍带 `CLIENT_`：`CLIENT_USER_USERNAME_MAX_LENGTH` |
+| 页面用法 | `src/api/length/**` 自动导入，禁止再写字面量，也禁止手写 `import` |
+| Vite | `UnpluginAutoImportVite` 的 `dirs` 必须含 `src/api/length/**` |
+
+## 枚举（`src/enum/<资源>/<字段>.ts`）
+
+schema / query / body 字段带 **`enum`** 时，必须落盘到枚举目录。
+
+| 规则 | 说明 |
+| --- | --- |
+| 路径 | `src/enum/<资源>/<字段>.ts`。资源 = api 文件名（已剥 `client-`） |
+| 导出 | `enum` +（可选）`xxxType` 色值映射 + `useXxx`。`useXxx` **只返回两项**：`xxxList` + `xxxFormatter` |
+| 类型引用 | `src/api/types/<资源>.d.ts` 里 `import type` 该 enum |
+
+## 类型（`src/api/types/<资源>.d.ts`）
+
+**禁止**在实现文件里内联参数/响应对象类型。一律具名 interface。
+
+| 用途 | 命名 |
+| --- | --- |
+| 请求 body | `PascalCase(函数名) + Data` |
+| 查询 params | `PascalCase(函数名) + Params` |
+| 响应 data | `PascalCase(函数名) + Response` |
+
+- **分页 Params 只写业务筛选字段**，禁止写 `pageNum` / `pageSize`
+- 分页列表响应：`SearchResponse<行类型>`
+
+## 函数体（`src/api/<资源>.ts`）
+
+- **文件最顶部**先写 `export type * from './types/<资源>'`
+- HTTP → `request.get` / `post` / `put` / `delete`
+- 未登录接口加 `{ noAuth: true }`
+- **已存在的 `*.ts` / `*.d.ts`：只增补、改名或局部替换，禁止整文件覆盖**
+
+## 流程
+
+1. 拉 `v3/api-docs`（见上方文档 JSON）
+2. 每个 tag：写/更新 `src/api/<资源>.ts` + `src/api/types/<同名>.d.ts`（只动该板块）
+3. schema `required` → 必填；其余 `?`
+
+## 替换旧 api 文件时（易错，禁止再犯）
+
+1. **副作用原样迁到对应方法**
+2. **公共库类型不一致时改源头**
+3. **页面已有查询参数 / 预留调用不要擅自删**
+4. **禁止** `void id` / `void item` 消 unused
+5. **只改 import 与函数名**；不要顺手整理业务页

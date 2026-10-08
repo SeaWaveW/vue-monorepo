@@ -1,0 +1,77 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"useDefineForClassFields": true,
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"strict": true,
+		"jsx": "preserve",
+		"jsxImportSource": "vue",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"lib": ["ESNext", "DOM"],
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"noEmit": true,
+		"allowJs": true,
+		"types": ["vite/client", "node", "@saco/types"],
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"],
+			"#/style.scss": ["../../packages/style/index.scss"],
+			"#/style.css": ["../../packages/style/index.scss"],
+			"#/axios": ["../../packages/axios/index.ts"],
+			"#/axios/*": ["../../packages/axios/*"],
+			"#/assets/*": ["../../packages/assets/*"],
+			"#/components/*": ["../../packages/components/*"],
+			"#/dynamic": ["../../packages/dynamic/index.ts"],
+			"#/dynamic/*": ["../../packages/dynamic/*"],
+			"#/i18n": ["../../packages/i18n/index.ts"],
+			"#/i18n/*": ["../../packages/i18n/*"],
+			"#/layout/*": ["../../packages/layout/*"],
+			"#/monitor": ["../../packages/monitor/index.ts"],
+			"#/monitor/*": ["../../packages/monitor/*"],
+			"#/pinia": ["../../packages/pinia/index.ts"],
+			"#/pinia/*": ["../../packages/pinia/*"],
+			"#/router": ["../../packages/router/index.ts"],
+			"#/router/*": ["../../packages/router/*"],
+			"#/store": ["../../packages/store/index.ts"],
+			"#/store/*": ["../../packages/store/*"],
+			"#/style": ["../../packages/style/index.scss"],
+			"#/style/*": ["../../packages/style/*"],
+			"#/theme": ["../../packages/theme/index.ts"],
+			"#/theme/*": ["../../packages/theme/*"],
+			"#/utils/*": ["../../packages/utils/*"],
+			"#/vite": ["../../packages/vite/index.ts"],
+			"#/vite/*": ["../../packages/vite/*"]
+		}
+	},
+	"include": [
+		".types/*",
+		"config",
+		"src",
+		// 共享 SFC 必须进本工程，才能合并 .types/saco-ui.d.ts 的 SacoUiSvgNameExtra
+		"../../packages/**/*.vue",
+		"../../packages/**/*.ts",
+		"../../packages/**/*.tsx"
+	],
+	"exclude": [
+		"node_modules",
+		"dist",
+		"vite.config.ts",
+		"../../packages/vite",
+		"../../packages/i18n/script",
+		"../../packages/theme/script"
+	],
+	"vueCompilerOptions": {
+		"strictTemplates": true,
+		"dataAttributes": ["data-*"]
+	},
+	"references": [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
+}

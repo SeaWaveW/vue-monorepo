@@ -1,0 +1,11 @@
+.dropdown-menu-icon {
+	margin-left: calc(var(--common-gap) * 2.4);
+	font-size: 25px;
+	color: var(--black-color-1);
+	cursor: pointer;
+}
+
+:deep(.saco-dropdown.is-disabled) .dropdown-menu-icon {
+	color: var(--grey-color-18);
+	cursor: not-allowed;
+}

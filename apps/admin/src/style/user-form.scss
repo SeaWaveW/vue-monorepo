@@ -1,0 +1,9 @@
+.user-form {
+	:deep(.sqt-card) {
+		&.function-card {
+			.sqt-text {
+				cursor: pointer;
+			}
+		}
+	}
+}

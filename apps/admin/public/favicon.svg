@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="192" height="192" viewBox="0 0 192 192" role="img" aria-label="蓝色山峰与齿轮标志">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0.15" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.74" stop-color="#fff"/>
+      <stop offset="1" stop-color="#edf5ff"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop stop-color="#82b5ff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#82b5ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="left" x1="42" y1="78" x2="76" y2="139" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#03c4ed"/>
+      <stop offset=".45" stop-color="#0869ef"/>
+      <stop offset="1" stop-color="#090b8d"/>
+    </linearGradient>
+    <linearGradient id="mountain" x1="123" y1="45" x2="123" y2="145" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0562ef"/>
+      <stop offset=".55" stop-color="#0874e7"/>
+      <stop offset="1" stop-color="#050276"/>
+    </linearGradient>
+    <linearGradient id="gear" x1="147" y1="93" x2="178" y2="140" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#05c8ef"/>
+      <stop offset=".5" stop-color="#0864dd"/>
+      <stop offset="1" stop-color="#070278"/>
+    </linearGradient>
+    <radialGradient id="shadow">
+      <stop stop-color="#3978cd" stop-opacity=".25"/>
+      <stop offset="1" stop-color="#3978cd" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-50%" y="-100%" width="200%" height="300%"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+  <rect width="192" height="192" rx="35" fill="url(#tile)"/>
+  <ellipse cx="97" cy="156" rx="82" ry="18" fill="url(#glow)"/>
+  <ellipse cx="95" cy="153" rx="54" ry="4" fill="url(#shadow)" filter="url(#soft)"/>
+  <path d="M15.8 126.7 49.5 81.1c2.8-3.8 8.2-4.1 11.3-.2l31.3 45.1-10.2 12.4-26.6-38.5-26.7 35.7c-3.1 4.1-8.8 4.2-12.1 1.2-3.1-2.7-3.4-6.5-.7-10.1Z" fill="url(#left)"/>
+  <path d="m66.3 85.7 28.6-37.4c2.9-3.9 8.4-4.2 11.5-.1l24.1 31.1-10.7 12.5-19.4-26.2-23.2 30.6Z" fill="url(#mountain)"/>
+  <path d="m86.5 143 65.6-78.4c2.6-3.1 6.3-3.2 8.9.3L173 84h-17.1l-1.8-2.4-40.2 51.5h31.2l-4.6 9.9Z" fill="url(#mountain)"/>
+  <path d="M137.6 109.1 134 104l7.5-9.4 5.7 2.2 4.4-2.5 1-6.2h12.1l1.1 6.2 4.3 2.5 5.8-2.2 7.4 9.4-3.7 5.1.8 4.9 5.7 2.7-2.7 11.8-6.3.2-3.1 3.9 1.1 6.2-10.9 5.2-4.3-4.6h-5l-4.3 4.6-10.9-5.2 1.1-6.2-3.1-3.9-6.3-.2-2.7-11.8 5.7-2.7Z" fill="url(#gear)" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="160.7" cy="116.3" r="10.6" fill="#fff"/>
+  <circle cx="160.7" cy="116.3" r="7.1" fill="url(#gear)"/>
+</svg>

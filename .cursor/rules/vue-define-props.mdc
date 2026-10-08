@@ -1,0 +1,37 @@
+---
+description: SFC 的 defineProps 根类型必须写在本文件；字段类型跟 @sqt/ui 走，禁止再抄联合
+globs: "**/*.vue"
+alwaysApply: true
+---
+
+# defineProps 不要跨文件、不要抄 UI 类型
+
+踩过的坑（`@sqt/common` 的 `CommonDropdownMenu`）：`defineProps<从 ./types 导入>()` 被 `vite-plugin-vue-setup-extend` 再编译时不带 `fs`，Vue 3.5 报 `No fs option provided`。修的时候又手抄了 `placement` 方向联合，UI 里已经有 `DropdownProps['placement']`。本端同样用这个插件，`<script setup name>` 一样会踩。
+
+## 必须
+
+- `defineProps` / `defineEmits` 的**根类型**写在本 SFC：内联 `{ ... }` 或本文件 `interface`。
+- 字段类型可以引用外部：`placement?: DropdownProps['placement']`。
+- UI 已有的 props 形状用 `import type { XxxProps } from '@sqt/ui'`，禁止再抄 `'top' | 'bottom' | ...`。
+
+## 禁止
+
+```ts
+import type { DropdownMenuProps } from './types'
+const props = defineProps<DropdownMenuProps>()
+```
+
+```ts
+placement?: 'top' | 'bottom' | 'bottom-start'
+```
+
+## 可以
+
+```ts
+import type { DropdownProps } from '@sqt/ui'
+const props = defineProps<{
+	placement?: DropdownProps['placement']
+}>()
+```
+
+本文件 `interface Props {}` 再 `defineProps<Props>()` 可以（没有跨文件）。

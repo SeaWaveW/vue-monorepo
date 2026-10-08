@@ -1,0 +1,22 @@
+---
+description: 写代码必须对照本仓库 Prettier / ESLint / Stylelint；缩进用 Tab
+alwaysApply: true
+---
+
+# 格式与 Lint
+
+规则来自 **`@saco/web-lint`**，写或改代码前按本仓库入口来，不要另起一套风格：
+
+- Prettier：`package.json` 的 `prettier`（`@saco/web-lint/prettier`）
+- ESLint：`eslint.config.mjs`（`export { default } from '@saco/web-lint/eslint'`）
+- Stylelint：`package.json` 的 `stylelint`；脚本走 `web-lint stylelint`
+
+配置里没有的条目就当没这条，不要用「业界默认」补上。格式和 ESLint 冲突时 **Prettier 优先**；ESLint 若已 skip-formatting，不要再写 indent 类规则去抢。
+
+## 缩进
+
+一级缩进 **一个 Tab**（`useTabs: true`），不要用 2 空格。嵌套一层多一个 Tab，折叠时层级更直观。
+
+## 对象形状
+
+纯对象形状用 **`interface`**，不要 `type Xxx = { }`（`@typescript-eslint/consistent-type-definitions`）。联合 / 交叉 / 映射 / 条件类型仍用 `type`。详见 `ts-interface.mdc`。

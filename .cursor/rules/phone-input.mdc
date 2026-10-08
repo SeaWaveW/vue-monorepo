@@ -1,0 +1,27 @@
+---
+description: 用户手机号用 CommonPhoneInput 两个绑定，空着按语言预选
+alwaysApply: true
+---
+
+# 手机号表单
+
+踩过的坑：一个 `v-model` 拼接口 `phone`，空着切国家会回到 86；校验 / 提交没用第二参；把区号叫 `dial`。
+
+## 必须
+
+```vue
+<CommonPhoneInput
+	v-model="formModel.phone"
+	v-model:country-code="countryCode"
+/>
+```
+
+- 新增 `countryCode = ref(getDefaultPhoneCountryCode(locale))`。中文 86，其它语言 1。
+- 没选：`t('validate_please_select_any', [t('country_calling_code')])`。正式名称是 **国家呼叫代码**。
+- 编辑 `parsePhone` 拆一次；提交 / userStore 用 `composePhone(countryCode, phone)`。
+- 国旗走 Select `#prefix`，不要外包。
+
+## 禁止
+
+- 叫 `dial` / `dialCode`
+- 校验只看 `formModel.phone`

@@ -1,0 +1,125 @@
+// 包装层差异写这里；SacoPagination 皮肤走业务 SacoUiResolver
+.common-pagination {
+	$item-gap: calc(var(--common-gap) * 2);
+
+	display: flex;
+	gap: $item-gap;
+	align-items: center;
+	user-select: none;
+
+	$pagination-gap-size: calc(var(--common-gap) * 3);
+
+	.common-pagination-total {
+		font-size: var(--font-size);
+		color: var(--black-color-1);
+	}
+
+	.saco-pagination {
+		> * {
+			margin: 0 $pagination-gap-size 0 0 !important;
+		}
+
+		.saco-pagination__sizes {
+			margin-left: $item-gap !important;
+
+			.saco-select {
+				width: auto;
+				background-color: transparent;
+				border-color: transparent;
+
+				&:hover,
+				&:focus {
+					background-color: var(--white-color);
+					border-color: transparent;
+				}
+
+				.select-inner {
+					gap: calc(var(--common-gap) / 2);
+
+					.select-label {
+						.label-item {
+							font-size: var(--font-size);
+							color: var(--black-color-1);
+						}
+					}
+
+					.select-skill {
+						.saco-svg {
+							font-size: var(--svg-size);
+							color: var(--black-color-1);
+						}
+					}
+				}
+			}
+		}
+
+		.saco-pagination__total {
+			margin-right: calc(var(--common-gap) * 4) !important;
+			font-size: var(--font-size);
+			color: var(--black-color-1);
+		}
+
+		.saco-pagination__jump {
+			$jump-gap-size: calc(var(--common-gap) * 0.4);
+
+			gap: $jump-gap-size;
+			margin: 0;
+
+			.saco-pagination__goto,
+			.saco-pagination__classifier {
+				margin: 0;
+				font-size: var(--font-size);
+				color: var(--black-color-1);
+			}
+
+			.saco-pagination__editor {
+				width: auto;
+
+				.saco-number {
+					width: auto;
+					background-color: transparent;
+
+					&:hover,
+					&:focus {
+						background-color: var(--white-color);
+						border-color: transparent;
+					}
+
+					input {
+						flex: none;
+						width: auto;
+						min-width: calc(46px - var(--common-gap) * 0.8);
+						field-sizing: content;
+						padding: calc(var(--common-gap) * 0.2)
+							calc(var(--common-gap) * 0.2) 0;
+						font-size: var(--font-size);
+						color: var(--black-color-1);
+						text-align: center;
+					}
+				}
+			}
+		}
+
+		.btn-prev,
+		.btn-next {
+			width: 60px;
+			height: 45px;
+			background-color: transparent !important;
+
+			.saco-svg {
+				font-size: var(--svg-size) !important;
+				color: var(--black-color-1) !important;
+			}
+
+			&:not(.is-disabled) {
+				&:hover {
+					background-color: var(--white-color) !important;
+				}
+			}
+		}
+
+		.btn-next {
+			margin-left: 0 !important;
+		}
+	}
+}

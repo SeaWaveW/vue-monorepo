@@ -1,0 +1,11 @@
+.saco-image-preview {
+	// 宽随父级，高用 aspect-ratio 跟宽走，和 CommonUploadImage 预览态对齐
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	overflow: hidden;
+	background-color: var(--white-color-3);
+	border-radius: var(--image-preview-radius, 8px);
+}

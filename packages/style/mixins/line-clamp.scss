@@ -1,0 +1,25 @@
+@use 'sass:math';
+
+// 按行数省略。$lines 默认 1。
+// 1 行不用 -webkit-box：旧弹性盒会在字上方多出一块行盒空白。
+@mixin line-clamp($lines: 1) {
+	text-overflow: ellipsis;
+
+	@if $lines == 1 {
+		$line-size: 1.5em;
+
+		// x hidden 出省略号；y 不写会因 hidden+visible 算成 auto，字形略超出就出滚动条
+		overflow: hidden clip;
+
+		// 1em 收行盒；0.2em 把字和图标在 45px 行里光学对齐。y 用 clip，避免切下沿
+		line-height: $line-size;
+		margin-bottom: #{math.div($line-size, 5)};
+		white-space: nowrap;
+	} @else {
+		// 多行必须 -webkit-box，只写 overflow + line-clamp 不会截断
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: $lines;
+	}
+}

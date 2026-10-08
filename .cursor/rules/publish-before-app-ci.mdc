@@ -1,0 +1,21 @@
+---
+description: 用了 common 新文案/色板/出口，必须同一轮先发 common 再提本仓
+alwaysApply: true
+---
+
+# 先发 common，再提本仓库
+
+踩过的坑：本地 link 着 `@sqt/common`，页面绿；只推本仓，流水线装旧包，缺 `collapse_to_taskbar`、`--main-color-9`、新出口。
+
+## 必须
+
+1. 业务用了新 i18n key / 主题色 / layout / 目录出口：先看 `../sqt-common` 有没有未提交改动。
+2. 有则 **同一轮** 先提 common、升补丁、`pnpm publish --no-git-checks`，再提本仓。
+3. 本仓 lockfile 必须是私服 tarball，版本对上刚发的 `@sqt/common`，不能还是旧补丁或 `link:`。
+4. 用户说「提交」时禁止只扫本仓 src。
+
+## 禁止
+
+- 只推本仓、common 文案/色板留在工作区
+- 为过流水线把 `t('…')` / CSS 变量改回旧包已有的
+- 把 `overrides: link:` 提交进仓库

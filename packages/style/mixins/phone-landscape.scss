@@ -1,0 +1,11 @@
+// 竖屏有旋转遮罩，收紧只打手机横屏。
+// h5 是浏览器触控端，app 是套壳；漏一个，对应端仍是桌面尺寸。
+// 手机横屏短边不超过 599、长边不超过 1023。只看短边时，平板横屏高度也会低于 600，登录间距会被收成手机。
+@mixin phone-landscape {
+	html[data-device-type='h5'][data-device-direction^='landscape'],
+	html[data-device-type='app'][data-device-direction^='landscape'] {
+		@media (width <= 599px), (height <= 599px) and (width <= 1023px) {
+			@content;
+		}
+	}
+}

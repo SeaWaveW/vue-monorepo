@@ -1,0 +1,837 @@
+/** =============================== form =========================== */
+.saco-form {
+	.saco-form-item {
+		margin-bottom: calc(var(--common-gap) * 3);
+
+		.saco-form-item__label {
+			font-size: var(--font-size);
+		}
+
+		.saco-form-item__content {
+			font-size: var(--font-size);
+			color: var(--black-color-1);
+			word-break: break-all;
+
+			// 贴在控件下，不占文档流；走 static 出错误会把表单项撑高抖一下
+			.saco-form-item__error {
+				position: absolute;
+				top: 100%;
+				left: 0;
+				font-size: calc(var(--font-size) - 2px);
+				line-height: 1.5em;
+				text-indent: 0.5em;
+				opacity: 1 !important;
+				animation: jitter-in 0.4s ease-in-out;
+
+				@keyframes jitter-in {
+					25% {
+						text-indent: 0;
+					}
+
+					50% {
+						text-indent: 1em;
+					}
+				}
+			}
+		}
+
+		// 不需要星号
+		&.not-required {
+			.saco-form-item__asterisk {
+				display: none;
+			}
+		}
+	}
+
+	// 子内容要星号。卡片标题不在 form-item 里，不能只挂在表单项下
+	.asterisk-required {
+		&::before {
+			margin: 0 calc(var(--common-gap) * 0.2);
+			color: var(--danger-color);
+			content: '*';
+		}
+	}
+
+	// --grid-column-size 只写在 layout 根上；壳外表单（登录等）不能跟栅格
+	// 动态设计器 / 预览自己排（--proportion-columns），不能吃页面 5 列
+	.layout-container
+		&:not(.dynamic-component, .dynamic-component *, .preview-component) {
+		@include form-grid;
+
+		.saco-form-item {
+			grid-column: span var(--column-span, 1);
+		}
+	}
+}
+
+/** =============================== textarea / number =========================== */
+// CommonInput / CommonSelect 皮肤在各自 style.scss；尚无包装的控件仍写这里。
+// 按需 theme-chalk 在 @layer saco-ui，未分层的 reset 同权重也能赢。
+// :not(.is-focus) 会盖掉分层里的校验红框：is-error 在 form-item 上，不在输入框上。
+.saco-textarea,
+.saco-number {
+	font-size: var(--font-size);
+	font-weight: normal;
+	color: var(--black-color);
+	border-radius: 6px !important;
+
+	&:not(.is-focus) {
+		border-color: transparent;
+	}
+
+	.suffix {
+		.close {
+			.saco-svg {
+				font-size: var(--svg-size);
+			}
+		}
+	}
+
+	// 原生 input/textarea 的 UA 自带 font/color，只改外壳 inherit 不到；不写会和表格正文两套字
+	// 不用 font 简写：会把 line-height 一并 !important，后面调行高盖不掉，字会看起来偏下
+	input,
+	textarea {
+		font-family: inherit !important;
+		font-size: inherit !important;
+		font-weight: inherit !important;
+		color: inherit;
+
+		// Popper 内容默认 user-select:none，不解开就选不了字
+		user-select: text;
+	}
+
+	// 跟 CommonInput 一样：焦点后占位隐掉，空框不再叠一层提示
+	&.is-focus {
+		input,
+		textarea {
+			&::placeholder {
+				color: transparent;
+			}
+		}
+	}
+
+	// 当是在表单中，且有错误时，显示红色边框
+	.saco-form-item.is-error & {
+		border-color: var(--danger-color);
+	}
+
+	// 当在表格时
+	.saco-table & {
+		height: 40px;
+		border-color: var(--grey-color-11);
+	}
+}
+
+// rows=1 锁 40px；字和光标靠上下 padding 居中，不要再写 overflow / is-overflow
+.saco-textarea {
+	padding-inline: calc(var(--control-height) * 0.45) 0;
+	background-color: var(--white-color-3);
+
+	&:has(> textarea[rows='1']) {
+		height: var(--control-height);
+		min-height: var(--control-height);
+	}
+
+	> textarea[rows='1'] {
+		// 0% 才能吃掉原生 cols 固有宽，否则左边缩成一块默认框
+		flex: 1 1 0%;
+		width: 100%;
+		min-width: 0;
+		height: 100%;
+		min-height: 0;
+
+		// 一行高 1em，剩余高度均分上下，跟 Input 视觉对齐
+		padding-block: calc((var(--control-height) - 2px - 1em) / 2);
+		padding-inline: 0 calc(var(--control-height) * 0.45);
+		line-height: 1;
+		appearance: none;
+		outline: none;
+		background: transparent;
+		border: none;
+	}
+}
+
+/** =============================== button =========================== */
+// 无边框按钮
+.saco-button {
+	height: var(--control-height);
+	border-radius: 5px;
+
+	&:not(:hover, :focus, :active) {
+		border-color: transparent;
+	}
+
+	// 白色按钮走 typed 色板时字和图标都是白的，叠在白底上看不见
+	&.is-default {
+		background-color: var(--white-color-3);
+
+		// 组件 hover 用 --button-hover-bg-color（主色浅底）；:has(:hover) 只看子节点，移入按钮本身对不上
+		--button-hover-bg-color: var(--grey-color-12);
+		--button-active-bg-color: var(--grey-color-12);
+
+		&:hover {
+			border-color: transparent;
+		}
+
+		.saco-button__icon {
+			// font-size: 20px;
+			font-size: var(--font-size);
+
+			// --button-icon-color 有值时盖住默认黑，SVG currentColor 才能跟业务色
+			color: var(--button-icon-color, var(--black-color-1));
+		}
+
+		.saco-button__text {
+			font-size: var(--font-size);
+			font-weight: normal;
+			color: var(--black-color);
+		}
+	}
+
+	// 主色按钮：底用特调 --main-color-8，不改 --primary-color（勾选/下拉高亮仍走主色）
+	&.is-primary[data-search] {
+		$color-scope: var(--black-color);
+		$bg-color-scope: var(--main-color-8);
+
+		// 浅特调再掺白；只改 CSS 变量时，生产抽 CSS 后本层会压过组件 :hover（同是 0,3,0）
+		$hover-bg-scope: color-mix(
+			in srgb,
+			#{$bg-color-scope} 65%,
+			var(--white-color)
+		);
+
+		// 不要写 background-color：和 .saco-button:hover:not(.is-disabled) 同权重，生产 reset 后写就移入不变色
+		--button-bg-color: #{$bg-color-scope};
+		--button-border-color: #{$bg-color-scope};
+		--button-text-color: #{$color-scope};
+		--button-hover-text-color: #{$color-scope};
+		--button-active-text-color: #{$color-scope};
+		--button-hover-bg-color: #{$hover-bg-scope};
+		--button-active-bg-color: #{$hover-bg-scope};
+
+		// 权重高于组件 :hover，生产 CSS 顺序反过来也能变色
+		&:hover:not(.is-disabled),
+		&:active:not(.is-disabled) {
+			background-color: $hover-bg-scope;
+		}
+
+		.saco-button__icon {
+			font-size: var(--font-size);
+			color: var(--button-icon-color, #{$color-scope});
+		}
+
+		.saco-button__text {
+			font-size: var(--font-size);
+			font-weight: normal;
+			color: $color-scope;
+		}
+	}
+
+	// 图标位置；未写 data-icon-color 时 inherit 按钮自身 color
+	.saco-button__icon {
+		color: var(--button-icon-color, inherit);
+		transform: translateY(-1px);
+	}
+
+	// 不用 attr()：无 type 只能给 content，typed attr 兼容差，属性里的 var() 也解析不了
+	// 业务继续写 data-icon-color="var(--primary-color)"，或直接 style="--button-icon-color: …"
+	@each $token in primary-color, success-color, danger-color, black-color-1 {
+		&[data-icon-color='var(--#{$token})'] {
+			--button-icon-color: var(--#{$token});
+		}
+	}
+
+	// 移入都取消边框
+	&:hover,
+	&:focus,
+	&:active {
+		border-color: transparent !important;
+	}
+}
+
+/** =============================== popper =========================== */
+.saco-popper {
+	--blank-space: 17px;
+
+	.popper-content {
+		user-select: none;
+	}
+
+	.select-dropdown,
+	.saco-dropdown-menu {
+		padding: var(--blank-space) 0;
+		overflow: hidden;
+
+		// background-color: var(--white-color-1);
+		border-radius: 6px;
+		box-shadow: 0 0 6px 0 var(--grey-color-5);
+	}
+
+	.saco-dropdown-menu {
+		width: max-content;
+		min-width: 100%;
+	}
+
+	// 下拉不要菱形箭头，只留一条缝。Tooltip 自己画朝外的三角，不能一起藏
+	&:not(.saco-tooltip) {
+		.popper-arrow {
+			display: block !important;
+			height: 6px;
+
+			&::before {
+				display: none;
+			}
+		}
+	}
+
+	.popper-content {
+		min-width: 150px;
+
+		.dropdown-input {
+			// background-color: var(--white-color-1);
+			border: none;
+
+			input {
+				height: 100%;
+				font-size: var(--font-size);
+				text-indent: 9px;
+				border-bottom: 1px solid var(--grey-color-17);
+
+				&::placeholder {
+					// color: var(--black-color);
+					font-size: calc(var(--font-size) - 2px);
+				}
+			}
+
+			& + .select-dropdown-item,
+			& + .select-dropdown-empty {
+				margin-top: var(--blank-space);
+				font-size: var(--font-size);
+			}
+		}
+
+		.dropdown-menu-search {
+			padding: 0 calc(var(--common-gap) * 1.1);
+			color: var(--black-color-1);
+			cursor: default;
+			background-color: var(--white-color-1);
+
+			&:hover {
+				color: var(--black-color-1);
+				background-color: var(--white-color-1);
+			}
+
+			& + .saco-dropdown-item {
+				margin-top: calc(var(--common-gap) * 1.4);
+			}
+		}
+
+		.select-dropdown-item,
+		.saco-dropdown-menu
+			.saco-dropdown-item:not(
+				.dropdown-menu-search,
+				.dropdown-menu-empty
+			) {
+			// min-width: 205px;
+			height: var(--control-height);
+			padding: 0 calc(var(--common-gap) * 2.1);
+			font-size: var(--font-size);
+			color: var(--black-color-1);
+
+			&:hover {
+				// color: var(--primary-color);
+				// background-color: var(--white-color);
+				color: var(--black-color);
+				background-color: var(--grey-color-12);
+			}
+
+			&.is-active {
+				// color: var(--white-color);
+				// background-color: var(--primary-color);
+				color: var(--primary-color);
+				background-color: transparent;
+
+				&:hover {
+					background-color: var(--grey-color-12);
+				}
+
+				opacity: 0.8;
+			}
+		}
+
+		.select-dropdown-empty,
+		.dropdown-menu-empty {
+			justify-content: center;
+			height: var(--control-height);
+			color: var(--black-color-1);
+			cursor: default;
+
+			&:hover {
+				color: var(--black-color-1);
+				background-color: transparent;
+			}
+		}
+	}
+
+	// 悬浮窗
+	&.dropdown-menu-popper {
+		.popper-content {
+			margin-top: calc(var(--common-gap) / 2);
+		}
+	}
+}
+
+/** =============================== table =========================== */
+.saco-table {
+	max-height: 100%;
+	overflow-y: auto;
+	background-color: transparent !important;
+
+	// collapse 时 th 的 sticky 不生效，表头会跟着表体滚走
+	.saco-table__inner {
+		border-spacing: 0;
+		border-collapse: separate;
+	}
+
+	.saco-table__cell {
+		$gap-size: var(--common-gap);
+
+		// td/th 不吃 min-height；height 在表格里就是行高下限，内容多仍会撑开
+		height: calc(var(--control-height) + #{$gap-size});
+		padding: $gap-size calc(var(--common-gap) * 1.2);
+		font-size: var(--font-size);
+		font-weight: normal;
+		color: var(--black-color);
+		word-break: break-all;
+		text-wrap: auto;
+		overflow-wrap: break-word;
+	}
+
+	.saco-table__header {
+		.saco-table__cell {
+			position: sticky;
+			top: 0;
+			z-index: 1;
+			background-color: var(--white-color-2);
+		}
+	}
+
+	.saco-table__body {
+		tr {
+			&:nth-child(odd) {
+				.saco-table__cell {
+					background-color: var(--grey-color-13);
+				}
+			}
+
+			&:nth-child(even) {
+				.saco-table__cell {
+					background-color: var(--white-color-2);
+				}
+			}
+
+			&:hover {
+				.saco-table__cell {
+					background-color: var(--white-color);
+				}
+			}
+		}
+	}
+
+	.saco-table__empty {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--common-gap) / 2);
+		align-items: center;
+		min-height: 151px;
+		font-size: var(--font-size);
+		color: var(--black-color-1);
+
+		// 组件空态图标类名是 saco-svg；业务自己放的空图标用 saco-table__empty-icon，前缀改了也不脱钩
+		.saco-svg,
+		.saco-table__empty-icon {
+			font-size: 44px;
+			color: var(--grey-color-3);
+		}
+	}
+
+	&.is-border {
+		.saco-table__header,
+		.saco-table__body {
+			tr {
+				.saco-table__cell {
+					border-right-color: var(--grey-color-11);
+					border-bottom-color: transparent;
+				}
+			}
+		}
+	}
+}
+
+/** =============================== card =========================== */
+.saco-card {
+	--card-x-padding: calc(var(--common-gap) * 2.3);
+	--card-y-padding: calc(var(--common-gap) * 2.9);
+
+	padding: var(--card-y-padding) var(--card-x-padding);
+	background-color: var(--grey-color--14) !important;
+	border-radius: 0 !important;
+
+	.saco-card__header {
+		padding: calc(var(--common-gap) * 0.2) 0;
+		margin-bottom: calc(var(--common-gap) * 3);
+		font-size: 20px;
+		color: var(--black-color);
+		border: none;
+	}
+
+	.saco-card__body {
+		padding: 0;
+		overflow-y: auto;
+	}
+
+	& + .saco-card {
+		margin-top: var(--common-gap);
+	}
+}
+
+/** =============================== text =========================== */
+.saco-text {
+	// 当是在表单中
+	.saco-form-item__content & {
+		font-size: var(--font-size);
+	}
+
+	// 当是在表格中
+	.saco-table & {
+		font-size: var(--font-size);
+	}
+
+	// 警告颜色
+	&.is-warning {
+		color: var(--yellow-color-2) !important;
+	}
+}
+
+/** =============================== message =========================== */
+.saco-message {
+	padding: calc(var(--common-gap) * 1.4) calc(var(--common-gap) * 2) !important;
+	border-color: transparent !important;
+	border-radius: 40px !important;
+	box-shadow: none !important;
+
+	.saco-message__icon {
+		font-size: 20px;
+	}
+
+	.saco-message__content {
+		font-size: var(--font-size);
+		color: var(--black-color-1);
+	}
+
+	&.is-success {
+		background-color: var(--green-color-2) !important;
+	}
+
+	&.is-info {
+		.saco-svg {
+			color: var(--primary-color) !important;
+		}
+
+		background-color: var(--main-color-8) !important;
+	}
+}
+
+/** =============================== message-box =========================== */
+.saco-message-box {
+	min-width: 400px !important;
+	padding: calc(var(--common-gap) * 3.2) !important;
+	background-color: var(--white-color-1) !important;
+
+	// 同步 dialog 的圆角
+	border-radius: 10px !important;
+	box-shadow: none !important;
+
+	.saco-message-box__title {
+		font-size: calc(var(--font-size) + 2px);
+		font-weight: normal;
+		color: var(--black-color);
+	}
+
+	.saco-message-box__headerbtn {
+		.saco-svg {
+			font-size: 20px !important;
+
+			&:hover {
+				color: var(--danger-color) !important;
+			}
+		}
+	}
+
+	.saco-message-box__content {
+		padding: calc(var(--common-gap) * 1.5) 0;
+
+		.saco-message-box__message {
+			font-size: var(--font-size);
+			color: var(--black-color);
+			text-align: center;
+		}
+	}
+
+	.saco-message-box__btns {
+		.saco-button {
+			// 固定宽度会把 padding-inline 吃进 80px，长文案撑不开
+			min-width: 80px;
+		}
+	}
+
+	// prompt 校验跟表单项同一套，漏了只剩 theme-chalk 12px
+	.saco-message-box__errormsg {
+		font-size: calc(var(--font-size) - 2px);
+		line-height: 1.5em;
+		color: var(--danger-color);
+		text-indent: 0.5em;
+		opacity: 1 !important;
+		animation: jitter-in 0.4s ease-in-out;
+	}
+}
+
+// pwa应用更新样式
+.pwa-message-box {
+	.saco-message-box {
+		width: auto !important;
+		min-width: 490px !important;
+
+		.saco-message-box__content {
+			padding: calc(var(--common-gap) * 2.8) 0;
+		}
+
+		.saco-message-box__btns {
+			.saco-button {
+				min-width: 100px;
+			}
+		}
+	}
+}
+
+// 详情页删除提示关闭修改页弹窗
+.detail-edit-message-box {
+	// {0} 要关闭的页签
+	.close-name {
+		color: var(--primary-color);
+	}
+}
+
+// 通用确认。MessageBox 挂 body，必须单独写
+.confirm-message-box {
+	.saco-message-box {
+		width: 580px;
+	}
+
+	.confirm-name.is-primary {
+		color: var(--primary-color);
+	}
+
+	.confirm-name.is-warning {
+		color: var(--warning-color);
+	}
+
+	.confirm-name.is-danger {
+		color: var(--danger-color);
+	}
+
+	// 开「不再提示」时的勾选文案
+	.saco-checkbox__label {
+		font-weight: normal;
+		color: var(--black-color);
+	}
+}
+
+/** =============================== loading =========================== */
+.saco-loading-mask {
+	background-color: transparent !important;
+}
+
+/** =============================== dialog =========================== */
+.saco-dialog {
+	// 普通居中弹窗皮肤。CommonTeleportDialog 是 is-fullscreen，必须在下面盖掉，否则 layout 壳会被 padding / 白底撑开
+	background: var(--white-color-1) !important;
+	border-radius: 10px !important;
+	box-shadow: none !important;
+
+	$left-padding: calc(var(--common-gap) * 2.7);
+	$right-padding: calc(var(--common-gap) * 2.9);
+	$top-padding: calc(var(--common-gap) * 2.6);
+	$bottom-padding: calc(var(--common-gap) * 3.3);
+
+	.saco-dialog__header {
+		padding: $top-padding $right-padding calc(#{$bottom-padding} / 2)
+			$left-padding;
+
+		.saco-dialog__title {
+			font-size: 18px;
+			font-weight: normal;
+			color: var(--black-color);
+		}
+
+		.saco-dialog__headerbtn {
+			.saco-svg {
+				font-size: 24px;
+				color: var(--grey-color-3);
+			}
+		}
+	}
+
+	.saco-dialog__body {
+		padding: calc(#{$bottom-padding} / 2) $right-padding
+			calc(#{$bottom-padding} / 2) $left-padding;
+	}
+
+	.saco-dialog__footer {
+		padding: calc(#{$bottom-padding} / 2) $right-padding $bottom-padding
+			$left-padding;
+	}
+
+	&.is-fullscreen {
+		background-color: transparent !important;
+		border-radius: 0 !important;
+
+		.saco-dialog__header {
+			padding: 0 !important;
+		}
+
+		.saco-dialog__body {
+			padding: 0 !important;
+		}
+
+		.saco-dialog__footer {
+			padding: 0 !important;
+		}
+	}
+}
+
+/** =============================== checkbox =========================== */
+.saco-checkbox {
+	$size: 20px;
+	$border-radius: 3px;
+	$border-width: 2px;
+	$label-font-size: var(--font-size);
+
+	.saco-checkbox__input {
+		&.is-focus {
+			.saco-checkbox__inner {
+				border-color: var(--grey-color-7);
+			}
+		}
+
+		.saco-checkbox__inner {
+			width: $size;
+			height: $size;
+			background-color: transparent;
+			border-color: var(--grey-color-7);
+			border-width: $border-width;
+			border-radius: $border-radius;
+
+			.saco-svg {
+				font-size: #{$size - 8px} !important;
+				color: var(--primary-color);
+			}
+		}
+
+		&.is-checked,
+		&.is-indeterminate {
+			.saco-checkbox__inner {
+				background-color: transparent;
+				border-color: var(--primary-color);
+			}
+		}
+	}
+
+	.saco-checkbox__label {
+		font-size: $label-font-size;
+	}
+}
+
+/** =============================== tree =========================== */
+.saco-tree {
+	background-color: transparent !important;
+
+	.saco-tree__node {
+		.saco-tree__node-content {
+			gap: calc(var(--common-gap) * 1.5);
+			height: auto;
+			padding: calc(var(--common-gap) * 0.8) calc(var(--common-gap) * 1.9) !important;
+			border-radius: 5px;
+
+			&:hover {
+				background-color: var(--white-color);
+			}
+
+			/** 选中跟 hover 不能同色，否则白底上看不出当前行 */
+			&.is-current {
+				background-color: var(--white-color);
+			}
+
+			& ~ .saco-tree__node {
+				margin-left: calc(var(--common-gap) * 5);
+			}
+
+			.saco-tree__expand-icon {
+				margin: 0 0 calc(var(--common-gap) * 0.2);
+				transform: rotate(270deg);
+
+				.saco-svg {
+					font-size: var(--svg-size);
+				}
+
+				&.expanded {
+					transform: rotate(360deg);
+				}
+			}
+
+			.saco-tree__checkbox {
+				margin-right: 0;
+				transform: translateY(-1px);
+			}
+
+			.saco-tree__label {
+				margin-bottom: calc(var(--common-gap) * 0.4);
+				font-size: var(--font-size);
+				color: var(--black-color-1);
+			}
+		}
+	}
+}
+
+/** =============================== date-picker =========================== */
+.saco-date-picker-input {
+	.suffix {
+		.saco-svg {
+			font-size: var(--svg-size);
+			color: var(--grey-color-3);
+		}
+	}
+}
+/** =============================== tabs =========================== */
+.saco-tabs {
+	.saco-tabs__item {
+		font-weight: normal;
+		color: var(--black-color);
+	}
+}
+/** =============================== 遮罩 =========================== */
+.saco-overlay {
+	background-color: color-mix(
+		in srgb,
+		var(--black-color-2) 30.196%,
+		transparent
+	) !important;
+}
+/** =============================== 溢出气泡 =========================== */
+.saco-tooltip {
+	.popper-content {
+		// box-shadow: none !important;
+		// background-color: transparent !important;
+		// backdrop-filter: blur(10px);
+	}
+}

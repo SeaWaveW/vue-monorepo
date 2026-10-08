@@ -1,0 +1,33 @@
+---
+description: 对象形状用 interface，不要用 type 别名；对齐 ESLint consistent-type-definitions
+globs: "**/*.{ts,tsx,vue,d.ts}"
+alwaysApply: true
+---
+
+# 对象形状用 `interface`
+
+本仓库 ESLint：`@typescript-eslint/consistent-type-definitions: ['error', 'interface']`。
+
+纯对象形状（含可选字段、方法签名、泛型对象）必须用 **`interface`**，禁止写成 `type Xxx = { ... }`。
+
+```ts
+// ✅
+export interface SearchResponse<T = any> {
+	records: T[]
+	total: number
+}
+
+// ❌ Use an `interface` instead of a `type`
+export type SearchResponse<T = any> = {
+	records: T[]
+	total: number
+}
+```
+
+## 仍用 `type` 的情况
+
+- 联合 / 交叉：`type A = B | C`、`type P = Base & T`
+- 映射 / 条件 / 工具类型派生：`Pick` / `Omit` / `infer` / `keyof`
+- 元组、原始别名：`type Id = string`、`type Pair = [number, string]`
+
+写新类型前先判断：能 `interface` 就不要 `type = { }`。

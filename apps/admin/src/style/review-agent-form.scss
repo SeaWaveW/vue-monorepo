@@ -1,0 +1,8 @@
+.review-agent-form {
+	:deep(.sqt-table) {
+		.sqt-text {
+			margin-right: calc(var(--common-gap) * 0.8);
+			cursor: pointer;
+		}
+	}
+}

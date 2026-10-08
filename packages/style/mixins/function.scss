@@ -1,0 +1,33 @@
+@use 'sass:math';
+@use 'sass:meta';
+
+/// 将颜色与白色按透明度混合
+@function alpha-color($color, $opacity, $space: srgb) {
+	@return color-mix(in $space, $color $opacity, var(--white-color));
+}
+
+// 字体大小计算函数
+@function strip-unit($number) {
+	@if meta.type-of($number) == 'number' and not math.is-unitless($number) {
+		@return math.div($number, $number * 0 + 1);
+	}
+
+	@return $number;
+}
+
+@function font-size($adjustments...) {
+	$result: var(--font-size);
+
+	@each $adj in $adjustments {
+		@if $adj != 0 {
+			// 如果传入的是数组，递归展开
+			@if meta.type-of($adj) == 'list' {
+				$result: font-size($adj...);
+			} @else {
+				$result: calc(#{$result} + #{$adj});
+			}
+		}
+	}
+
+	@return $result;
+}

@@ -1,0 +1,85 @@
+---
+description: 泛型跟调用方走、禁止多余包装和 as
+globs: ["**/*.ts", "**/*.vue"]
+alwaysApply: true
+---
+
+# 类型推断与接口写法
+
+适用范围：`utils`、页面、请求都按这条，**不要**当成只有 search 才遵守。
+
+## 泛型名
+
+- 查询参数：`P`（`extends AnyObj`）
+- 列表行 / `SearchResponse` 的数据：`D`
+- 传入的请求函数：`A`
+- 禁止 `TModel`、`TItem`、`Record<string, unknown>`（项目已有全局 `AnyObj`）
+
+`D` 写在函数泛型上（可用默认值从 `A` 推断），**不要**在函数体内 `type D = ...`。
+
+## 从 A 推 D（详情 / utils）
+
+行类型必须是 `ReturnType<A>` 推出来的（列表 `SearchRow<A>`，详情 `res.data`）。禁止把 `AnyObj` / `any` 当行类型，禁止调用方再写 `getXxx<ApiPageRecord>(...)`。
+
+`A` 的上界可以是 `Promise<any>`（只为接 `request.get`，和 `useSearchFormTable` 一样）。**D 只能写成默认值**，例如 `D = DetailRow<A>`。
+
+```ts
+// ✅ D 从详情接口推出
+type DetailRow<A extends (params: { id: number }) => Promise<any>> =
+	Awaited<ReturnType<A>> extends { data: infer R extends { id: number } }
+		? R
+		: never
+
+export const getRowsByIds = async <
+	A extends (params: { id: number }) => Promise<any>,
+	D = DetailRow<A>,
+>(ids: number[], api: A): Promise<D[]> => {}
+
+// ❌ 行类型写成 AnyObj，还用 D 倒套接口
+export const getRowsByIds = async <D extends AnyObj>(
+	ids: number[],
+	api: (params: { id: number }) => Promise<{ data: D }>,
+) => {}
+```
+
+调用方怎么写泛型，实现就怎么接。说了是**数组**就 `T extends X[]`（`getRouterParams<[number]>(['id'])`），不要改成 `Record`、不要函数重载凑推断、不要 `{ [I in keyof T]: string }` 摊在参数上。`keys` 用 `string[]` 即可。
+
+## 接口
+
+保持调用方写法，禁止改成 pending / `unknown` 再断言：
+
+```ts
+// ✅
+return request.get<SearchResponse<IpListItem>>('/system/ip/list', params)
+
+// ❌
+const pending = request.get<...>(...)
+return pending as unknown as Promise<SearchResponse<...>>
+```
+
+`use` 的 `api` 参数跟传入函数走：`A extends (params: P) => Promise<any>`，从 `ReturnType<A>` 推断 `D`。不要手写 `Promise<SearchApiRes<D>>`。
+
+拦截器已经 `resolve(data)`，`.then` 里直接用 `res.total` / `res.data`。禁止再包 `unwrapSearch` 之类。
+
+## 禁止多余包装
+
+不要用 `parseXxx`、拆 `string[]`、`Number()`、`isFinite`、空值守卫去「帮」调用方。vue-router 的 `params` **原样用**；同名多个是 `string[]`，由调用方的 `T` 声明（`[string[]]`）。
+
+进页就定的值（路由 params）不要包 `computed`。
+
+## 标注不要断言
+
+类型写在变量上，不要 `as`：
+
+```ts
+// ✅
+const dataList = ref<D[]>([])
+const params: RouterParams<T> = {}
+
+// ❌
+const dataList = ref([]) as TableListRef<D>
+const params = {} as RouterParams<T>
+route.params.id as number
+```
+
+业务列表不要 `map` 成另一套 item 再丢给组件，项上多字段直接传。

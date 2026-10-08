@@ -1,0 +1,12 @@
+node_modules/
+dist/
+apps/*/.types/auto-imports.d.ts
+apps/*/.types/auto-components.d.ts
+apps/*/.types/saco-ui.d.ts
+*.tsbuildinfo
+*.tsbuildinfo
+.vite/
+.cache/
+*.local
+visualizer.html
+.DS_Store

@@ -1,0 +1,10 @@
+// 纵向可滚。皮肤在 style/scrollbar.scss，这里只决定要不要占滚动槽。
+// $reserve-gutter：内容变高出现滚动条时要不要预留宽度，否则容器变窄会左右跳。
+@mixin overflow-y-hover($reserve-gutter: false) {
+	overflow-y: auto;
+
+	@if $reserve-gutter {
+		// 始终占住滚动槽，和有没有溢出、thumb 透不透明无关
+		scrollbar-gutter: stable;
+	}
+}

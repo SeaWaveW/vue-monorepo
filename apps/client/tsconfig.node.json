@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		"rootDir": "../..",
+		"outDir": "./node_modules/.cache/tsconfig.node",
+		"target": "ESNext",
+		"lib": ["ESNext"],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"moduleDetection": "force",
+		"allowImportingTsExtensions": true,
+		"emitDeclarationOnly": true,
+		"resolvePackageJsonExports": true,
+		"resolveJsonModule": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"types": ["node", "@saco/types"],
+		"tsBuildInfoFile": "./node_modules/.cache/tsconfig.node.tsbuildinfo"
+	},
+	"include": [
+		"vite.config.ts",
+		"../../packages/vite/**/*.ts",
+		"../../packages/theme/module/light.json"
+	]
+}

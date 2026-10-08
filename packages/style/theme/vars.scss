@@ -1,0 +1,346 @@
+/** 亮色（默认） */
+:root,
+[data-theme-type='light'] {
+	/** 主色调 */
+	--primary-color: #266FFF;
+
+	/** 成功色 */
+	--success-color: #71C016;
+
+	/** 警告色 */
+	--warning-color: #C29300;
+
+	/** 危险色 */
+	--danger-color: #FF0000;
+
+	/** 信息色 */
+	--info-color: #888888;
+
+	/** 白色（表格高光） */
+	--white-color: #FFFFFF;
+
+	/** 黑色 */
+	--black-color: #000000;
+
+	/** 文字色 */
+	--text-color: #515151;
+
+	/** 按钮/tabs标签 */
+	--main-color: var(--primary-color);
+
+	/** 登录页四功能明细 */
+	--main-color-1: #003866;
+
+	/** 登录页项目标题 */
+	--main-color-2: #143E9F;
+
+	/** 控制台排行进度条 */
+	--main-color-3: #5AABF9;
+
+	/** 导航已收藏颜色 */
+	--main-color-4: #A1D5FF;
+
+	/** 控制台审核图标 */
+	--main-color-5: #B5D8FA;
+
+	/** 控制台审核图标 */
+	--main-color-6: #BAD8FF;
+
+	/** 登录页表单阴影 */
+	--main-color-7: #83BFF0;
+
+	/** 查询页主色调按钮 */
+	--main-color-8: #C5E5FF;
+
+	/** 审核任务进行中模糊色 */
+	--main-color-9: #007BFF;
+
+	/** 控制台比较文字 */
+	--green-color: var(--success-color);
+
+	/** 控制台审核图标 */
+	--green-color-1: #A5E7DC;
+
+	/** 成功提示背景色 */
+	--green-color-2: #D4F3B1;
+
+	/** 控制台审核图标 */
+	--pluple-color: #D7C1EB;
+
+	/** 控制台审核图标 */
+	--pluple-color-1: #D1C4FF;
+
+	/** 控制台比较文字 */
+	--red-color: var(--danger-color);
+
+	/** 控制台文字/按钮禁用图标色 */
+	--red-color-1: #FF4747;
+
+	/** IP管理风险说明 */
+	--yellow-color: var(--warning-color);
+
+	/** 控制台审核图标/下拉/日期组件的图标 */
+	--yellow-color-1: #FFD0B5;
+
+	/** 文字组件警告色 */
+	--yellow-color-2: #FFC100;
+
+	/** 文件夹上传图标色/控制台比较文字/上传组件描述色 */
+	--grey-color: var(--info-color);
+
+	/** 审核工作台agent描述 */
+	--grey-color-1: #898989;
+
+	/** 输入框字体颜色 */
+	--grey-color-2: #8E8E8E;
+
+	/** 下拉/日期组件的图标 */
+	--grey-color-3: #909090;
+
+	--grey-color-4: #969696;
+
+	/** 分页组件模糊色 */
+	--grey-color-5: #BDBDBD;
+
+	/** 审核工作台任务时间 */
+	--grey-color-6: #C2C2C2;
+
+	/** 审核工作台进度条未达色/说明图标色/多选组件未选色 */
+	--grey-color-7: #C9C9C9;
+
+	/** 导航菜单更多图标 */
+	--grey-color-8: #CFCFCF;
+
+	/** 导航抽屉模糊色/边框色 */
+	--grey-color-9: #D7D7D7;
+
+	/** 导航未收藏颜色 */
+	--grey-color-10: #DDDDDD;
+
+	/** 导航蒙层色/表格边框色 */
+	--grey-color-11: #E5E5E5;
+
+	/** layout头部背景/内容区背景 */
+	--grey-color-12: #EBEBEB;
+
+	/** 表格单行背景色 */
+	--grey-color-13: #F1F1F1;
+
+	/** layout控制台内容背景色/导航抽屉背景色 */
+	--grey-color--14: var(--white-color-1);
+
+	/** layout工具栏阴影色 */
+	--grey-color-15: #C7C7C7;
+
+	/** 动态表单绘画区阴影 */
+	--grey-color-16: #D6D6D6;
+
+	/** 下拉框搜索边框色 */
+	--grey-color-17: #BBBBBB;
+
+	/** 表格修改笔图标色 */
+	--grey-color-18: #ADADAD;
+
+	/** AI审核控制台中间卡片模糊 */
+	--grey-color-19: #EAEAEA;
+
+	/** AI审核控制台中间卡片背景色 */
+	--grey-color-20: #F7F7F7;
+
+	/** AI审核控制台文件夹上传背景色 */
+	--grey-color-21: #EEEEEE;
+
+	/** layout页面工具栏背景色 */
+	--white-color-1: #F3F3F3;
+
+	/** 表格表头/双行背景色 */
+	--white-color-2: #F6F6F6;
+
+	/** 输入框背景色 */
+	--white-color-3: #FCFCFC;
+
+	/** 主页卡片背景色 */
+	--white-color-4: #FAFAFA;
+
+	/** 文字颜色 */
+	--black-color-1: #101010;
+
+	/** 遮罩背景色 */
+	--black-color-2: #14151C;
+
+	/** 桌面栏色 */
+	--pwa-color: #526da2;
+}
+
+/** 暗色 */
+[data-theme-type='dark'] {
+	/** 主色调 */
+	--primary-color: #3B82F6;
+
+	/** 成功色 */
+	--success-color: #34D399;
+
+	/** 警告色 */
+	--warning-color: #FBBF24;
+
+	/** 危险色 */
+	--danger-color: #FB7185;
+
+	/** 信息色 */
+	--info-color: #94A3B8;
+
+	/** 白色（表格高光） */
+	--white-color: #EAF2FF;
+
+	/** 黑色 */
+	--black-color: #070B14;
+
+	/** 文字色 */
+	--text-color: #CBD5E1;
+
+	/** 按钮/tabs标签 */
+	--main-color: var(--primary-color);
+
+	/** 登录页四功能明细 */
+	--main-color-1: #93C5FD;
+
+	/** 登录页项目标题 */
+	--main-color-2: #E0EAFF;
+
+	/** 控制台排行进度条 */
+	--main-color-3: #38BDF8;
+
+	/** 导航已收藏颜色 */
+	--main-color-4: #60A5FA;
+
+	/** 控制台审核图标 */
+	--main-color-5: #60A5FA;
+
+	/** 控制台审核图标 */
+	--main-color-6: #818CF8;
+
+	/** 登录页表单阴影 */
+	--main-color-7: #172B4D;
+
+	/** 查询页主色调按钮 */
+	--main-color-8: #1E3A5F;
+
+	/** 审核任务进行中模糊色 */
+	--main-color-9: #007BFF;
+
+	/** 控制台比较文字 */
+	--green-color: var(--success-color);
+
+	/** 控制台审核图标 */
+	--green-color-1: #2DD4BF;
+
+	/** 成功提示背景色 */
+	--green-color-2: #10352D;
+
+	/** 控制台审核图标 */
+	--pluple-color: #C084FC;
+
+	/** 控制台审核图标 */
+	--pluple-color-1: #A78BFA;
+
+	/** 控制台比较文字 */
+	--red-color: var(--danger-color);
+
+	/** 控制台文字/按钮禁用图标色 */
+	--red-color-1: #FB7185;
+
+	/** IP管理风险说明 */
+	--yellow-color: var(--warning-color);
+
+	/** 控制台审核图标/下拉/日期组件的图标 */
+	--yellow-color-1: #FDBA74;
+
+	/** 文字组件警告色 */
+	--yellow-color-2: #FFC100;
+
+	/** 文件夹上传图标色/控制台比较文字/上传组件描述色 */
+	--grey-color: var(--info-color);
+
+	/** 审核工作台agent描述 */
+	--grey-color-1: #94A3B8;
+
+	/** 输入框字体颜色 */
+	--grey-color-2: #CBD5E1;
+
+	/** 下拉/日期组件的图标 */
+	--grey-color-3: #94A3B8;
+
+	--grey-color-4: #8B9BB4;
+
+	/** 分页组件模糊色 */
+	--grey-color-5: #64748B;
+
+	/** 审核工作台任务时间 */
+	--grey-color-6: #94A3B8;
+
+	/** 审核工作台进度条未达色/说明图标色/多选组件未选色 */
+	--grey-color-7: #526580;
+
+	/** 导航菜单更多图标 */
+	--grey-color-8: #94A3B8;
+
+	/** 导航抽屉模糊色/边框色 */
+	--grey-color-9: #334155;
+
+	/** 导航未收藏颜色 */
+	--grey-color-10: #64748B;
+
+	/** 导航蒙层色/表格边框色 */
+	--grey-color-11: #263449;
+
+	/** layout头部背景/内容区背景 */
+	--grey-color-12: #0B1120;
+
+	/** 表格单行背景色 */
+	--grey-color-13: #111A2B;
+
+	/** layout控制台内容背景色/导航抽屉背景色 */
+	--grey-color--14: var(--white-color-1);
+
+	/** layout工具栏阴影色 */
+	--grey-color-15: #050913;
+
+	/** 动态表单绘画区阴影 */
+	--grey-color-16: #080E1B;
+
+	/** 下拉框搜索边框色 */
+	--grey-color-17: #425570;
+
+	/** 表格修改笔图标色 */
+	--grey-color-18: #A7B8D0;
+
+	/** AI审核控制台中间卡片模糊 */
+	--grey-color-19: #EAEAEA;
+
+	/** AI审核控制台中间卡片背景色 */
+	--grey-color-20: #F7F7F7;
+
+	/** AI审核控制台文件夹上传背景色 */
+	--grey-color-21: #EEEEEE;
+
+	/** layout页面工具栏背景色 */
+	--white-color-1: #131E31;
+
+	/** 表格表头/双行背景色 */
+	--white-color-2: #19263B;
+
+	/** 输入框背景色 */
+	--white-color-3: #0D1626;
+
+	/** 主页卡片背景色 */
+	--white-color-4: #162237;
+
+	/** 文字颜色 */
+	--black-color-1: #EAF2FF;
+
+	/** 遮罩背景色 */
+	--black-color-2: #14151C;
+
+	/** 桌面栏色 */
+	--pwa-color: #0B1120;
+}

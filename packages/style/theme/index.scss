@@ -1,0 +1,42 @@
+@import url('./vars.scss');
+
+// body {
+// 	font-family: AlibabaPuHui, sans-serif;
+// }
+
+/** 不可变的css变量 */
+:root {
+	/** 字体大小 */
+	--font-size: 16px;
+
+	/** 控件高度 */
+	--control-height: 40px;
+
+	/** 图标大小 */
+	--svg-size: 20px;
+
+	/** 字体粗细 */
+	--font-bold: 700;
+
+	/** 安全区域左 */
+	--safe-area-left: 0px;
+
+	/** 安全区域右 */
+	--safe-area-right: 0px;
+
+	/** 安全区域比例 */
+	--safe-area-ratio: 0.7;
+
+	/** 闪烁动画 */
+	--twinkle-opacity: 0.4;
+	--twinkle-animation: search-twinkle 2.2s ease-in-out infinite;
+
+	/** 基础间距 */
+	--common-gap: 10px;
+}
+
+@keyframes search-twinkle {
+	50% {
+		opacity: var(--twinkle-opacity);
+	}
+}

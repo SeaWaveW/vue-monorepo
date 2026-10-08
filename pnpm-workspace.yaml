@@ -1,0 +1,13 @@
+packages:
+  - apps/*
+
+# 刚发到 npm 的版本未满 1 天，默认 minimumReleaseAge 会退回旧包
+minimumReleaseAgeExclude:
+  - '@saco/ui'
+  - '@saco/web-lint'
+  - '@saco/rem-plugin'
+
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  sharp: true
